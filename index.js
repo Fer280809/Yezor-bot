@@ -71,28 +71,36 @@ async function seleccionarMetodoConexion() {
   console.log(chalk.cyan('║  📱 MÉTODOS DE CONEXIÓN DISPONIBLES   ║'));
   console.log(chalk.cyan('╚════════════════════════════════════════╝\n'));
   console.log(chalk.white('  1️⃣  📱 Código QR'));
-  console.log(chalk.gray('      └─ Escanea con WhatsApp\n'));
-  console.log(chalk.white('  2️⃣  🔢 Código de Vinculación'));
-  console.log(chalk.gray('      └─ Ingresa código en WhatsApp\n'));
+  console.log(chalk.gray('      └─ Escanea con la cámara de WhatsApp\n'));
+  console.log(chalk.white('  2️⃣  🔢 Código de Vinculación (8 dígitos)'));
+  console.log(chalk.gray('      └─ Ingresa código manualmente en WhatsApp\n'));
   
   const opcion = await question(chalk.yellow('👉 Selecciona una opción (1 o 2): '));
   
   if (opcion.trim() === '2') {
     usePairingCode = true;
     console.log('');
-    phoneNumber = await question(chalk.yellow('📱 Ingresa tu número (con código de país, ej: 521234567890): '));
+    console.log(chalk.cyan('═══════════════════════════════════════'));
+    console.log(chalk.cyan('  CONFIGURACIÓN DE CÓDIGO DE PAIRING'));
+    console.log(chalk.cyan('═══════════════════════════════════════\n'));
+    
+    phoneNumber = await question(chalk.yellow('📱 Ingresa tu número completo:\n   (Ejemplo: 5212345678901)\n   → '));
     phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
     
     if (phoneNumber.length < 10) {
-      console.log(chalk.red('\n❌ Número inválido. Debe incluir código de país.'));
+      console.log(chalk.red('\n❌ Número inválido'));
+      console.log(chalk.yellow('💡 Formato correcto: [código país][número]'));
+      console.log(chalk.yellow('   Ejemplo México: 5212345678901'));
+      console.log(chalk.yellow('   Ejemplo USA: 11234567890\n'));
       process.exit(1);
     }
     
     console.log(chalk.green(`\n✅ Modo: Código de Vinculación`));
-    console.log(chalk.cyan(`📞 Número: +${phoneNumber}\n`));
+    console.log(chalk.cyan(`📞 Número configurado: +${phoneNumber}\n`));
+    console.log(chalk.gray('💡 Asegúrate de que WhatsApp esté instalado en ese número\n'));
   } else {
     usePairingCode = false;
-    console.log(chalk.green('\n✅ Modo: Código QR\n'));
+    console.log(chalk.green('\n✅ Modo: Código QR seleccionado\n'));
   }
 }
 
@@ -129,10 +137,43 @@ async function iniciarBot() {
     logger: P({ level: 'silent' }),
     browser: ['Yezor Bot', 'Chrome', '3.0'],
     version,
+    defaultQueryTimeoutMs: undefined,
     getMessage: async (key) => {
       return { conversation: '' };
     }
   });
+
+  // ============================================
+  // PAIRING CODE: Solicitar INMEDIATAMENTE después de crear socket
+  // ============================================
+  if (usePairingCode && !sock.authState.creds.registered) {
+    console.log(chalk.yellow('⏳ Solicitando código de vinculación...\n'));
+    
+    // Esperar solo un poco para que el socket se inicialice
+    await delay(1500);
+    
+    try {
+      const code = await sock.requestPairingCode(phoneNumber);
+      const formattedCode = code?.match(/.{1,4}/g)?.join('-') || code;
+      
+      console.log(chalk.cyan('╔════════════════════════════════════════╗'));
+      console.log(chalk.cyan('║      🔢 CÓDIGO DE VINCULACIÓN         ║'));
+      console.log(chalk.cyan('╚════════════════════════════════════════╝\n'));
+      console.log(chalk.yellow.bold(`           ${formattedCode}           \n`));
+      console.log(chalk.white('📱 PASOS PARA VINCULAR:\n'));
+      console.log(chalk.white('1. Abre WhatsApp en tu teléfono'));
+      console.log(chalk.white('2. Toca los 3 puntos (⋮) > Dispositivos vinculados'));
+      console.log(chalk.white('3. Toca "Vincular un dispositivo"'));
+      console.log(chalk.white('4. Toca "Vincular con número de teléfono"'));
+      console.log(chalk.yellow(`5. Ingresa este código: ${formattedCode}`));
+      console.log(chalk.gray('\n⚠️  El código expira en 60 segundos'));
+      console.log(chalk.gray('⏳ Esperando vinculación...\n'));
+    } catch (error) {
+      console.error(chalk.red('❌ Error al generar código:'), error.message);
+      console.log(chalk.yellow('\n💡 Intenta con código QR en su lugar'));
+      console.log(chalk.yellow('   Ejecuta de nuevo y selecciona opción 1\n'));
+    }
+  }
 
   // ============================================
   // EVENT: Actualizar credenciales
@@ -143,7 +184,7 @@ async function iniciarBot() {
   // EVENT: Actualización de conexión
   // ============================================
   sock.ev.on('connection.update', async (update) => {
-    const { connection, lastDisconnect, qr } = update;
+    const { connection, lastDisconnect, qr, isNewLogin } = update;
     
     // Manejar QR Code
     if (qr && !usePairingCode) {
@@ -152,10 +193,11 @@ async function iniciarBot() {
       console.log(chalk.cyan('╚════════════════════════════════════════╝\n'));
       qrcode.generate(qr, { small: true });
       console.log('');
+      console.log(chalk.white('📱 PASOS PARA VINCULAR:\n'));
       console.log(chalk.white('1. Abre WhatsApp en tu teléfono'));
-      console.log(chalk.white('2. Ve a Ajustes > Dispositivos vinculados'));
+      console.log(chalk.white('2. Toca los 3 puntos (⋮) > Dispositivos vinculados'));
       console.log(chalk.white('3. Toca "Vincular un dispositivo"'));
-      console.log(chalk.white('4. Apunta tu cámara al código QR\n'));
+      console.log(chalk.white('4. Apunta tu cámara al código QR de arriba\n'));
       console.log(chalk.gray('⏳ Esperando escaneo...\n'));
     }
 
