@@ -24,7 +24,7 @@ Bot de WhatsApp inteligente con IA multilenguaje y sistema de auto-mejora.
 
 ```bash
 # Clonar repositorio
-git clone https://github.com/TU_USUARIO/yezor-bot.git
+git clone https://github.com/Fer280809/yezor-bot.git
 cd yezor-bot
 
 # Ejecutar script de instalación
@@ -41,7 +41,7 @@ npm start
 
 ```bash
 # Clonar repositorio
-git clone https://github.com/TU_USUARIO/yezor-bot.git
+git clone https://github.com/Fer280809/yezor-bot.git
 cd yezor-bot
 
 # Instalar dependencias
@@ -72,7 +72,7 @@ Edita el archivo `settings.json`:
 ```json
 {
   "botName": "Yezor",
-  "ownerNumber": "TU_NUMERO",
+  "ownerNumber": "524181450063",
   "prefix": "/",
   "idiomas": ["español", "inglés"]
 }
@@ -81,7 +81,6 @@ Edita el archivo `settings.json`:
 ## 🔧 Tecnologías
 
 - [@whiskeysockets/baileys](https://github.com/WhiskeySockets/Baileys) - WhatsApp Web API
-- Claude AI - Inteligencia Artificial
 - Node.js - Runtime
 - JSON - Base de datos
 
@@ -91,7 +90,7 @@ MIT License - Libre para uso personal y comercial
 
 ## 👨‍💻 Autor
 
-Creado por Yezor Team
+Creado 𝕱𝖊𝖗𝖓𝖆𝖓𝖉𝖔
 
 ## 🤝 Contribuir
 
@@ -109,7 +108,7 @@ Este bot es solo para propósitos educativos. Úsalo responsablemente.
 
 ## 📞 Soporte
 
-¿Problemas? Abre un [Issue](https://github.com/TU_USUARIO/yezor-bot/issues)
+¿Problemas? Abre un [Issue](https://github.com/Fer280809/yezor-bot/issues)
 
 ---
 
