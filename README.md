@@ -22,32 +22,43 @@ Bot de WhatsApp inteligente con IA multilenguaje y sistema de auto-mejora.
 
 ## 🚀 Instalación en Termux
 
-```bash
+
 # Clonar repositorio
-git clone https://github.com/Fer280809/yezor-bot.git
+git clone
+```bash
+ https://github.com/Fer280809/yezor-bot.git
 cd yezor-bot
-
+```
 # Ejecutar script de instalación
+```bash
 bash termux.sh
-
+```
 # Instalar dependencias
+```bash
 npm install
-
+```
 # Iniciar bot
+```bash
 npm start
 ```
 
 ## 🖥️ Instalación en PC
 
-```bash
+
 # Clonar repositorio
-git clone https://github.com/Fer280809/yezor-bot.git
+git clone
+```bash
+ https://github.com/Fer280809/yezor-bot.git
 cd yezor-bot
+```
 
 # Instalar dependencias
+```bash
 npm install
+```
 
 # Iniciar bot
+```bash
 npm start
 ```
 
