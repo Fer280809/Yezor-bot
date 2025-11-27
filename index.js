@@ -1,12 +1,14 @@
 // ============================================
 // YEZOR BOT - Archivo Principal con JadiBot
+// Soporta QR Code y Pairing Code
 // ============================================
 
-const { default: makeWASocket, DisconnectReason, useMultiFileAuthState, delay, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
+const { default: makeWASocket, DisconnectReason, useMultiFileAuthState, delay, fetchLatestBaileysVersion, makeCacheableSignalKeyStore } = require('@whiskeysockets/baileys');
 const P = require('pino');
 const qrcode = require('qrcode-terminal');
 const chalk = require('chalk');
 const moment = require('moment-timezone');
+const readline = require('readline');
 
 // Cargar módulos
 const settings = require('./settings.json');
@@ -20,6 +22,20 @@ const db = new Database();
 const jadibot = new JadiBotManager();
 const plugins = new PluginLoader();
 let sock = null;
+let usePairingCode = false;
+let phoneNumber = '';
+
+// ============================================
+// INTERFAZ DE READLINE
+// ============================================
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function question(query) {
+  return new Promise(resolve => rl.question(query, resolve));
+}
 
 // ============================================
 // BANNER DE INICIO
@@ -44,6 +60,33 @@ function mostrarBanner() {
   console.log(chalk.yellow(`⏰ ${moment().tz(settings.timezone).format('DD/MM/YYYY HH:mm:ss')}`));
   console.log(chalk.green(`🤖 Bot: ${settings.botName}`));
   console.log(chalk.blue(`🌐 Idiomas: ${settings.idiomas.join(', ')}\n`));
+}
+
+// ============================================
+// SELECTOR DE MÉTODO DE CONEXIÓN
+// ============================================
+async function seleccionarMetodoConexion() {
+  console.log(chalk.cyan('📱 Métodos de conexión disponibles:\n'));
+  console.log(chalk.white('1. 📱 Código QR (Escanear con WhatsApp)'));
+  console.log(chalk.white('2. 🔢 Código de Vinculación (Pairing Code)\n'));
+  
+  const opcion = await question(chalk.yellow('Selecciona una opción (1 o 2): '));
+  
+  if (opcion === '2') {
+    usePairingCode = true;
+    phoneNumber = await question(chalk.yellow('Ingresa tu número de WhatsApp (con código de país, ej: 521234567890): '));
+    phoneNumber = phoneNumber.replace(/[^0-9]/g, ''); // Limpiar el número
+    
+    if (phoneNumber.length < 10) {
+      console.log(chalk.red('❌ Número inválido. Debe incluir código de país.'));
+      process.exit(1);
+    }
+    
+    console.log(chalk.green(`✅ Se usará código de vinculación para: +${phoneNumber}\n`));
+  } else {
+    usePairingCode = false;
+    console.log(chalk.green('✅ Se usará código QR\n'));
+  }
 }
 
 // ============================================
@@ -72,12 +115,45 @@ async function iniciarBot() {
   
   // Crear socket de WhatsApp
   sock = makeWASocket({
-    auth: state,
-    printQRInTerminal: false,
+    auth: {
+      creds: state.creds,
+      keys: makeCacheableSignalKeyStore(state.keys, P({ level: 'silent' }))
+    },
+    printQRInTerminal: !usePairingCode, // Solo mostrar QR si no usa pairing code
     logger: P({ level: 'silent' }),
     browser: ['Yezor Bot', 'Chrome', '3.0'],
-    version
+    version,
+    getMessage: async (key) => {
+      return { conversation: '' };
+    }
   });
+
+  // ============================================
+  // PAIRING CODE: Solicitar código si está habilitado
+  // ============================================
+  if (usePairingCode && !sock.authState.creds.registered) {
+    setTimeout(async () => {
+      try {
+        const code = await sock.requestPairingCode(phoneNumber);
+        console.log('');
+        console.log(chalk.green('═══════════════════════════════════'));
+        console.log(chalk.green('📱 CÓDIGO DE VINCULACIÓN'));
+        console.log(chalk.green('═══════════════════════════════════'));
+        console.log('');
+        console.log(chalk.yellow.bold(`   ${code.match(/.{1,4}/g)?.join('-') || code}   `));
+        console.log('');
+        console.log(chalk.white('1. Abre WhatsApp en tu teléfono'));
+        console.log(chalk.white('2. Ve a Ajustes > Dispositivos vinculados'));
+        console.log(chalk.white('3. Toca "Vincular un dispositivo"'));
+        console.log(chalk.white('4. Ingresa el código de arriba'));
+        console.log('');
+        console.log(chalk.gray('⏳ Esperando vinculación...'));
+        console.log('');
+      } catch (error) {
+        console.error(chalk.red('❌ Error al generar código de vinculación:'), error.message);
+      }
+    }, 3000);
+  }
 
   // ============================================
   // EVENT: Actualizar credenciales
@@ -90,11 +166,14 @@ async function iniciarBot() {
   sock.ev.on('connection.update', async (update) => {
     const { connection, lastDisconnect, qr } = update;
     
-    if (qr) {
+    // Mostrar QR solo si no usa pairing code
+    if (qr && !usePairingCode) {
       console.log('');
       console.log(chalk.yellow('📱 Escanea este código QR con WhatsApp:'));
       console.log('');
       qrcode.generate(qr, { small: true });
+      console.log('');
+      console.log(chalk.gray('⏳ Esperando escaneo...'));
       console.log('');
     }
 
@@ -104,9 +183,11 @@ async function iniciarBot() {
       if (shouldReconnect) {
         console.log(chalk.yellow('⚠️  Conexión cerrada. Reconectando en 5s...'));
         await delay(5000);
+        // No volver a preguntar método en reconexión
         iniciarBot();
       } else {
         console.log(chalk.red('❌ Bot desconectado. Elimina la carpeta auth_yezor para reconectar.'));
+        rl.close();
       }
     } else if (connection === 'open') {
       console.log('');
@@ -119,6 +200,9 @@ async function iniciarBot() {
       console.log(chalk.cyan(`🤖 JadiBot: ${jadibot.isEnabled() ? chalk.green('✅ ON') : chalk.red('❌ OFF')}`));
       console.log(chalk.magenta('🚀 Yezor Bot está listo!'));
       console.log('');
+
+      // Cerrar readline después de conectar
+      rl.close();
 
       // Auto-guardar base de datos
       if (settings.database.autoSave) {
@@ -272,6 +356,9 @@ process.on('unhandledRejection', (err) => {
 process.on('SIGINT', async () => {
   console.log(chalk.yellow('\n⚠️  Cerrando bot...'));
   
+  // Cerrar readline si está abierto
+  rl.close();
+  
   // Guardar datos
   await db.guardar();
   console.log(chalk.green('✅ Datos guardados'));
@@ -297,7 +384,18 @@ process.on('SIGINT', async () => {
 // ============================================
 console.log(chalk.cyan('🚀 Iniciando Yezor Bot...\n'));
 
-iniciarBot().catch(err => {
-  console.error(chalk.red('❌ Error fatal al iniciar:'), err);
-  process.exit(1);
-});
+(async () => {
+  try {
+    // Solo preguntar método en primer inicio
+    const fs = require('fs');
+    if (!fs.existsSync('./auth_yezor/creds.json')) {
+      await seleccionarMetodoConexion();
+    }
+    
+    await iniciarBot();
+  } catch (err) {
+    console.error(chalk.red('❌ Error fatal al iniciar:'), err);
+    rl.close();
+    process.exit(1);
+  }
+})();
