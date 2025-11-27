@@ -1,5 +1,5 @@
 // ============================================
-// YEZOR BOT - Archivo Principal
+// YEZOR BOT - Archivo Principal con JadiBot
 // ============================================
 
 const { default: makeWASocket, DisconnectReason, useMultiFileAuthState, delay, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
@@ -11,14 +11,15 @@ const moment = require('moment-timezone');
 // Cargar módulos
 const settings = require('./settings.json');
 const Database = require('./database');
-const Comandos = require('./plugins/comandos');
-const IAAsistente = require('./plugins/ia');
+const { serialize } = require('./lib/simple');
+const JadiBotManager = require('./lib/jadibot');
+const PluginLoader = require('./lib/pluginLoader');
 
 // Variables globales
 const db = new Database();
-const ia = new IAAsistente();
+const jadibot = new JadiBotManager();
+const plugins = new PluginLoader();
 let sock = null;
-let comandos = null;
 
 // ============================================
 // BANNER DE INICIO
@@ -36,6 +37,7 @@ function mostrarBanner() {
 ║     ╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝ 
 ║                                      ║
 ║     Bot de WhatsApp con IA v2.0     ║
+║        + Sistema JadiBot             ║
 ║                                      ║
 ╚══════════════════════════════════════╝
   `));
@@ -54,6 +56,13 @@ async function iniciarBot() {
   await db.cargar();
   console.log(chalk.green('✅ Base de datos cargada'));
 
+  // Inicializar JadiBot
+  await jadibot.init();
+  console.log(chalk.green(`✅ JadiBot: ${jadibot.isEnabled() ? 'Activado' : 'Desactivado'}`));
+
+  // Cargar plugins
+  await plugins.loadAll();
+
   // Obtener última versión de Baileys
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(chalk.cyan(`📦 Baileys v${version.join('.')} ${isLatest ? '(latest)' : ''}`));
@@ -69,9 +78,6 @@ async function iniciarBot() {
     browser: ['Yezor Bot', 'Chrome', '3.0'],
     version
   });
-
-  // Inicializar comandos
-  comandos = new Comandos(sock, db, ia, settings);
 
   // ============================================
   // EVENT: Actualizar credenciales
@@ -109,16 +115,9 @@ async function iniciarBot() {
       console.log(chalk.green('═══════════════════════════════════'));
       console.log(chalk.cyan(`📊 Usuarios registrados: ${db.usuarios.size}`));
       console.log(chalk.cyan(`📨 Mensajes procesados: ${db.estadisticas.mensajes}`));
+      console.log(chalk.cyan(`🔌 Plugins cargados: ${plugins.getStats().total}`));
       console.log(chalk.magenta('🚀 Yezor Bot está listo!'));
       console.log('');
-
-      // Iniciar auto-mejora si está habilitada
-      if (settings.ai.autoImprove) {
-        setInterval(() => {
-          ia.analizarYMejorar(db);
-          console.log(chalk.blue('🔄 Sistema de auto-mejora ejecutado'));
-        }, settings.ai.improvementInterval);
-      }
 
       // Auto-guardar base de datos
       if (settings.database.autoSave) {
@@ -126,6 +125,11 @@ async function iniciarBot() {
           db.guardar();
         }, settings.database.saveInterval);
       }
+
+      // Limpiar sesiones inactivas de JadiBot cada hora
+      setInterval(() => {
+        jadibot.cleanInactiveSessions();
+      }, 3600000);
     }
   });
 
@@ -134,29 +138,92 @@ async function iniciarBot() {
   // ============================================
   sock.ev.on('messages.upsert', async ({ messages }) => {
     try {
-      const msg = messages[0];
+      const m = messages[0];
       
       // Ignorar mensajes propios y sin contenido
-      if (msg.key.fromMe || !msg.message) return;
+      if (m.key.fromMe || !m.message) return;
+
+      // Serializar mensaje
+      const msg = serialize(m, sock);
 
       // Log del mensaje
-      console.log(chalk.gray(`📨 Mensaje de: ${msg.key.remoteJid}`));
+      console.log(chalk.gray(`📨 ${msg.sender.split('@')[0]}: ${msg.text.substring(0, 50)}`));
 
-      // Procesar mensaje
-      await comandos.procesar(msg);
+      // Incrementar contador
+      db.incrementarMensajes(msg.sender);
+
+      // Si es un comando
+      if (msg.text.startsWith(settings.prefix)) {
+        const [comando, ...args] = msg.text.slice(settings.prefix.length).trim().split(/\s+/);
+        const cmd = comando.toLowerCase();
+
+        // Registrar comando
+        db.registrarComando(cmd);
+
+        // Ejecutar plugin
+        const executed = await plugins.executeCommand(msg, cmd, args, sock, db, {
+          ...settings,
+          jadibot
+        });
+
+        if (!executed) {
+          await msg.reply('❌ Comando no encontrado. Usa /menu para ver comandos disponibles.');
+        }
+      }
+      // Si menciona al bot o es respuesta directa
+      else if (msg.text.toLowerCase().includes('yezor') || msg.text.length > 10) {
+        // Aquí puedes agregar conversación con IA si lo deseas
+      }
 
     } catch (error) {
       console.error(chalk.red('❌ Error procesando mensaje:'), error);
-      db.estadisticas.errores++;
+      db.registrarError();
     }
   });
 
   // ============================================
-  // EVENT: Actualización de grupos
+  // EVENT: Actualización de participantes de grupo
   // ============================================
   sock.ev.on('group-participants.update', async (update) => {
-    console.log(chalk.blue('👥 Actualización de grupo:'), update);
-    // Aquí puedes agregar lógica para bienvenidas/despedidas
+    try {
+      const { id, participants, action } = update;
+      
+      const grupo = db.getGrupo(id);
+      
+      if (!grupo.configuracion.bienvenida) return;
+
+      const groupMetadata = await sock.groupMetadata(id);
+
+      for (const participant of participants) {
+        if (action === 'add') {
+          const welcome = `👋 *BIENVENIDO/A*
+
+Hola @${participant.split('@')[0]}!
+
+Bienvenido/a al grupo *${groupMetadata.subject}*
+
+🤖 Usa /menu para ver mis comandos`;
+
+          await sock.sendMessage(id, {
+            text: welcome,
+            mentions: [participant]
+          });
+        } else if (action === 'remove') {
+          const goodbye = `👋 *ADIÓS*
+
+@${participant.split('@')[0]} ha salido del grupo.
+
+¡Hasta pronto!`;
+
+          await sock.sendMessage(id, {
+            text: goodbye,
+            mentions: [participant]
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error en event de grupo:', error);
+    }
   });
 }
 
