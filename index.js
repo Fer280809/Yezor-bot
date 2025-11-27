@@ -116,6 +116,7 @@ async function iniciarBot() {
       console.log(chalk.cyan(`📊 Usuarios registrados: ${db.usuarios.size}`));
       console.log(chalk.cyan(`📨 Mensajes procesados: ${db.estadisticas.mensajes}`));
       console.log(chalk.cyan(`🔌 Plugins cargados: ${plugins.getStats().total}`));
+      console.log(chalk.cyan(`🤖 JadiBot: ${jadibot.isEnabled() ? chalk.green('✅ ON') : chalk.red('❌ OFF')}`));
       console.log(chalk.magenta('🚀 Yezor Bot está listo!'));
       console.log('');
 
@@ -147,7 +148,8 @@ async function iniciarBot() {
       const msg = serialize(m, sock);
 
       // Log del mensaje
-      console.log(chalk.gray(`📨 ${msg.sender.split('@')[0]}: ${msg.text.substring(0, 50)}`));
+      const logText = msg.text.length > 50 ? msg.text.substring(0, 50) + '...' : msg.text;
+      console.log(chalk.gray(`📨 ${msg.sender.split('@')[0]}: ${logText}`));
 
       // Incrementar contador
       db.incrementarMensajes(msg.sender);
@@ -160,6 +162,8 @@ async function iniciarBot() {
         // Registrar comando
         db.registrarComando(cmd);
 
+        console.log(chalk.blue(`⚡ Comando: /${cmd}`));
+
         // Ejecutar plugin
         const executed = await plugins.executeCommand(msg, cmd, args, sock, db, {
           ...settings,
@@ -170,9 +174,11 @@ async function iniciarBot() {
           await msg.reply('❌ Comando no encontrado. Usa /menu para ver comandos disponibles.');
         }
       }
-      // Si menciona al bot o es respuesta directa
-      else if (msg.text.toLowerCase().includes('yezor') || msg.text.length > 10) {
-        // Aquí puedes agregar conversación con IA si lo deseas
+      // Conversación normal (puedes agregar IA aquí)
+      else if (msg.text.toLowerCase().includes('yezor') || msg.text.toLowerCase().includes('bot')) {
+        // Aquí puedes agregar respuesta con IA si lo deseas
+        // const respuesta = await ia.responder(msg.text, idioma, msg.sender, db);
+        // await msg.reply(respuesta);
       }
 
     } catch (error) {
@@ -190,6 +196,7 @@ async function iniciarBot() {
       
       const grupo = db.getGrupo(id);
       
+      // Verificar si bienvenida está activada
       if (!grupo.configuracion.bienvenida) return;
 
       const groupMetadata = await sock.groupMetadata(id);
@@ -202,13 +209,16 @@ Hola @${participant.split('@')[0]}!
 
 Bienvenido/a al grupo *${groupMetadata.subject}*
 
-🤖 Usa /menu para ver mis comandos`;
+🤖 Soy ${settings.botName}, usa /menu para ver mis comandos`;
 
           await sock.sendMessage(id, {
             text: welcome,
             mentions: [participant]
           });
-        } else if (action === 'remove') {
+
+          console.log(chalk.green(`👋 Bienvenida enviada en ${groupMetadata.subject}`));
+        } 
+        else if (action === 'remove') {
           const goodbye = `👋 *ADIÓS*
 
 @${participant.split('@')[0]} ha salido del grupo.
@@ -219,10 +229,28 @@ Bienvenido/a al grupo *${groupMetadata.subject}*
             text: goodbye,
             mentions: [participant]
           });
+
+          console.log(chalk.yellow(`👋 Despedida enviada en ${groupMetadata.subject}`));
         }
       }
     } catch (error) {
-      console.error('Error en event de grupo:', error);
+      console.error(chalk.red('Error en event de grupo:'), error);
+    }
+  });
+
+  // ============================================
+  // EVENT: Actualización de grupos (nombre, foto, etc)
+  // ============================================
+  sock.ev.on('groups.update', async (updates) => {
+    for (const update of updates) {
+      console.log(chalk.blue(`🔄 Grupo actualizado: ${update.id}`));
+      
+      // Actualizar info del grupo en DB
+      const grupo = db.getGrupo(update.id);
+      if (update.subject) {
+        grupo.nombre = update.subject;
+        db.grupos.set(update.id, grupo);
+      }
     }
   });
 }
@@ -232,24 +260,44 @@ Bienvenido/a al grupo *${groupMetadata.subject}*
 // ============================================
 process.on('uncaughtException', (err) => {
   console.error(chalk.red('❌ Error no capturado:'), err);
+  db.registrarError();
 });
 
 process.on('unhandledRejection', (err) => {
   console.error(chalk.red('❌ Promesa rechazada:'), err);
+  db.registrarError();
 });
 
 // Manejo de cierre
 process.on('SIGINT', async () => {
   console.log(chalk.yellow('\n⚠️  Cerrando bot...'));
+  
+  // Guardar datos
   await db.guardar();
   console.log(chalk.green('✅ Datos guardados'));
+  
+  // Desconectar todos los sub-bots
+  if (jadibot.bots.size > 0) {
+    console.log(chalk.yellow('🔌 Desconectando sub-bots...'));
+    for (const [userId] of jadibot.bots) {
+      try {
+        await jadibot.stopBot(userId);
+      } catch (error) {
+        console.error(`Error cerrando bot ${userId}:`, error);
+      }
+    }
+  }
+  
+  console.log(chalk.green('👋 Bot cerrado correctamente'));
   process.exit(0);
 });
 
 // ============================================
 // INICIAR BOT
 // ============================================
+console.log(chalk.cyan('🚀 Iniciando Yezor Bot...\n'));
+
 iniciarBot().catch(err => {
-  console.error(chalk.red('❌ Error fatal:'), err);
+  console.error(chalk.red('❌ Error fatal al iniciar:'), err);
   process.exit(1);
 });
