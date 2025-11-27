@@ -36,32 +36,38 @@ El **JadiBot** permite a los usuarios convertir su propio WhatsApp en un sub-bot
 
 ## 🚀 Instalación en Termux
 
-```bash
 # Clonar repositorio
-git clone https://github.com/Fer280809/yezor-bot.git
-cd yezor-bot
-
+```bash
+git clone https://github.com/Fer280809/yezor-bot.git && cd yezor-bot
+```
 # Ejecutar script de instalación
+```bash
 bash termux.sh
-
+```
 # Instalar dependencias
+```bash
 npm install
-
+```
 # Iniciar bot
 npm start
 ```
 
 ## 🖥️ Instalación en PC
 
-```bash
+
 # Clonar repositorio
+```bash
 git clone https://github.com/Fer280809/yezor-bot.git
+```
+```bash
 cd yezor-bot
-
+```
 # Instalar dependencias
+```bash
 npm install
-
+```
 # Iniciar bot
+```bash
 npm start
 ```
 
