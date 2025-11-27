@@ -1,0 +1,46 @@
+{
+  "name": "yezor-bot",
+  "version": "2.0.0",
+  "description": "Bot de WhatsApp Yezor con IA multilenguaje y auto-mejora",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "node index.js"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "baileys",
+    "ai",
+    "yezor",
+    "chatbot",
+    "multilanguage"
+  ],
+  "author": "Fernandl",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fer280809/yezor-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Fer280809/yezor-bot/issues"
+  },
+  "homepage": "https://github.com/Fer280809/yezor-bot#readme",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.8",
+    "qrcode-terminal": "^0.12.0",
+    "pino": "^9.5.0",
+    "node-fetch": "^2.7.0",
+    "chalk": "^4.1.2",
+    "moment-timezone": "^0.5.45",
+    "axios": "^1.7.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  }
+}
