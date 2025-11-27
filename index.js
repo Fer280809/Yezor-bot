@@ -206,7 +206,7 @@ async function iniciarBot() {
     console.log(chalk.yellow('⏳ Generando código de vinculación...\n'));
     
     // Esperar un momento para que el socket se inicialice
-    await delay(2000);
+    await delay(3000);
     
     try {
       const code = await sock.requestPairingCode(phoneNumber);
