@@ -56,12 +56,15 @@ npm start
 
 
 # Clonar repositorio
+
 ```bash
 git clone https://github.com/Fer280809/yezor-bot.git
 ```
+
 ```bash
 cd yezor-bot
 ```
+
 # Instalar dependencias
 ```bash
 npm install
