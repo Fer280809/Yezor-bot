@@ -49,6 +49,7 @@ bash termux.sh
 npm install
 ```
 # Iniciar bot
+```bash
 npm start
 ```
 
