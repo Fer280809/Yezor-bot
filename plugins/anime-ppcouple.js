@@ -2,7 +2,6 @@
 // plugins/anime-ppcouple.js - Ejemplo de comando bilingüe
 // ═══════════════════════════════════════════════════════
 
-/*
 import fetch from "node-fetch"
 
 let handler = async (m, { conn, usedPrefix }) => {
@@ -31,4 +30,3 @@ handler.command = ['ppcp', 'ppcouple']
 handler.group = true
 
 export default handler
-*/
