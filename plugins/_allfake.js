@@ -2,7 +2,7 @@
 // plugins/_allfake.js - Fake Messages (ACTUALIZADO)
 // ═══════════════════════════════════════════════════════
 
-/*
+
 import pkg from '@whiskeysockets/baileys'
 import fs from 'fs'
 import fetch from 'node-fetch'
