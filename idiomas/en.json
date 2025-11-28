@@ -1,0 +1,46 @@
+// ═══════════════════════════════════════════════════════
+// idiomas/en.json - English
+// ═══════════════════════════════════════════════════════
+
+/*
+{
+  "botName": "YeZor Bot",
+  "description": "WhatsApp Multi-Device Bot",
+  "greetings": {
+    "morning": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening",
+    "welcome": "Welcome!"
+  },
+  "errors": {
+    "groupOnly": "⚠️ This command only works in groups",
+    "adminOnly": "⚠️ Only administrators can use this command",
+    "ownerOnly": "⚠️ This command is only for the owner",
+    "premiumOnly": "⚠️ This command is only for premium users",
+    "botAdminOnly": "⚠️ I need to be an administrator to execute this command",
+    "banned": "⚠️ You are banned and cannot use commands"
+  },
+  "success": {
+    "done": "✅ Done",
+    "success": "✅ Success",
+    "activated": "✅ Activated",
+    "deactivated": "✅ Deactivated"
+  },
+  "commands": {
+    "menu": {
+      "title": "📋 Command Menu",
+      "info": "Bot Information",
+      "anime": "Anime",
+      "group": "Groups",
+      "download": "Downloads",
+      "fun": "Fun",
+      "tools": "Tools"
+    },
+    "ppcouple": {
+      "loading": "🕒 Searching for couples...",
+      "male": "*Male* ♂",
+      "female": "*Female* ♀",
+      "error": "⚠️ A problem has occurred."
+    }
+  }
+}
