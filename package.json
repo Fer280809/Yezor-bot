@@ -1,0 +1,80 @@
+{
+  "name": "yezor-bot",
+  "version": "2.0.0",
+  "description": "YeZor-Bot - WhatsApp Multi Device Bot by Fernando",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "lib": "lib",
+    "plugins": "plugins",
+    "idiomas": "idiomas"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "node index.js --test",
+    "qr": "node index.js qr",
+    "code": "node index.js code"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fer280809/YeZor-Bot.git"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "multi-device",
+    "baileys",
+    "yezor",
+    "fernando"
+  ],
+  "author": "Fernando",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Fer280809/YeZor-Bot/issues"
+  },
+  "homepage": "https://github.com/Fer280809/YeZor-Bot#readme",
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@vitalets/google-translate-api": "^9.2.0",
+    "@whiskeysockets/baileys": "^7.0.0-rc.9",
+    "acrcloud": "^1.4.0",
+    "awesome-phonenumber": "^6.11.5",
+    "axios": "^1.7.9",
+    "boxen": "^8.0.1",
+    "cfonts": "^3.3.0",
+    "chalk": "^5.3.0",
+    "cheerio": "^1.0.0",
+    "file-type": "^19.6.0",
+    "fluent-ffmpeg": "^2.1.3",
+    "form-data": "^4.0.1",
+    "formdata-node": "^6.0.3",
+    "google-libphonenumber": "^3.2.38",
+    "human-readable": "^0.2.1",
+    "jimp": "^1.6.0",
+    "jsdom": "^25.0.1",
+    "link-preview-js": "^3.1.0",
+    "lodash": "^4.17.21",
+    "lowdb": "^7.0.1",
+    "mime-types": "^2.1.35",
+    "node-cache": "^5.1.2",
+    "node-fetch": "^3.3.2",
+    "node-webpmux": "^3.1.7",
+    "pino": "^9.5.0",
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0",
+    "syntax-error": "^1.4.0",
+    "url-regex-safe": "^4.0.0",
+    "ws": "^8.18.0",
+    "yargs": "^17.7.2",
+    "yt-search": "^2.10.4"
+  },
+  "optionalDependencies": {
+    "moment-timezone": "^0.5.46",
+    "wa-sticker-formatter": "^4.4.4",
+    "sharp": "^0.33.5"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}
