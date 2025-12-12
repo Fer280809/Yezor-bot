@@ -1,170 +1,432 @@
-// ===== DATOS DE PELÍCULAS =====
+// ===== BASE DE DATOS COMPLETA =====
+
 let moviesData = [
     {
         id: 1,
-        title: "Dunes Parte Dos",
-        description: "Para liberdades de unas a los frontera para vengar si se tramita.",
+        title: "Dune: Parte Dos",
+        description: "Paul Atreides se une a los Fremen en el planeta Arrakis para vengar a su familia y liberar al pueblo.",
         year: 2024,
         rating: 8.7,
-        genre: ["ciencia-ficcion", "aventura"],
+        genre: ["ciencia ficcion", "aventura", "drama"],
         duration: "2h 46m",
         director: "Denis Villeneuve",
         actors: "Timothée Chalamet, Zendaya, Rebecca Ferguson",
         language: "Español/Inglés",
-        size: "2.5 GB",
+        type: "pelicula",
         isFeatured: true,
-        isNew: true,
-        addedDate: "2024-01-15"
+        coverImage: "https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nx1S8.jpg",
+        // Video de YouTube (puede ser cualquier enlace)
+        videoUrl: "https://www.youtube.com/embed/Way9Dexny3w",
+        // Diferentes calidades de descarga
+        downloadLinks: {
+            "720p": "https://example.com/dune2-720p.mp4",
+            "1080p": "https://example.com/dune2-1080p.mp4",
+            "4K": "https://example.com/dune2-4k.mp4"
+        }
     },
     {
         id: 2,
         title: "John Wick 4",
-        description: "John Wick descubra un camino para detenerse a Julia Mega.",
+        description: "John Wick descubre un camino para derrotar a la Alta Mesa. Pero antes de ganar su libertad...",
         year: 2023,
         rating: 8.2,
-        genre: ["accion", "suspenso"],
+        genre: ["accion", "suspenso", "crimen"],
         duration: "2h 49m",
         director: "Chad Stahelski",
         actors: "Keanu Reeves, Donnie Yen, Bill Skarsgård",
         language: "Español/Inglés",
-        size: "2.3 GB",
+        type: "pelicula",
         isFeatured: true,
-        isNew: false,
-        addedDate: "2023-11-20"
+        coverImage: "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
+        videoUrl: "https://www.youtube.com/embed/qEVUtrk8_B4",
+        downloadLinks: {
+            "720p": "https://example.com/johnwick4-720p.mp4",
+            "1080p": "https://example.com/johnwick4-1080p.mp4"
+        }
     },
     {
         id: 3,
-        title: "Paráxicos",
-        description: "Una familia pobre es difícil en el hogar de una familia fea.",
+        title: "Spider-Man: Across the Spider-Verse",
+        description: "Miles Morales se embarca en una aventura épica que transportará al Spider-Man en ciernes a través del Multiverso.",
         year: 2023,
-        rating: 7.5,
-        genre: ["drama", "suspenso"],
-        duration: "1h 58m",
-        director: "Desconocido",
-        actors: "Actores Varios",
-        language: "Español",
-        size: "1.8 GB",
-        isFeatured: false,
-        isNew: true,
-        addedDate: "2024-01-10"
+        rating: 8.6,
+        genre: ["animacion", "accion", "aventura"],
+        duration: "2h 20m",
+        director: "Joaquim Dos Santos, Kemp Powers, Justin K. Thompson",
+        actors: "Shameik Moore, Hailee Steinfeld, Oscar Isaac",
+        language: "Español/Inglés",
+        type: "pelicula",
+        isFeatured: true,
+        coverImage: "https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",
+        videoUrl: "https://www.youtube.com/embed/shW9i6k8cB0",
+        downloadLinks: {
+            "720p": "https://example.com/spiderverse-720p.mp4",
+            "1080p": "https://example.com/spiderverse-1080p.mp4"
+        }
     },
     {
         id: 4,
-        title: "Intertextolar",
-        description: "Un grupo de exploradores siga a través de un equipo de guantes en el espacio.",
+        title: "Oppenheimer",
+        description: "La historia del físico J. Robert Oppenheimer y su papel en el desarrollo de la bomba atómica.",
         year: 2023,
-        rating: 8.9,
-        genre: ["ciencia-ficcion", "aventura"],
-        duration: "2h 49m",
+        rating: 8.3,
+        genre: ["drama", "historia", "biografia"],
+        duration: "3h 00m",
         director: "Christopher Nolan",
-        actors: "Matthew McConaughey, Anne Hathaway",
+        actors: "Cillian Murphy, Emily Blunt, Matt Damon",
         language: "Español/Inglés",
-        size: "3.1 GB",
-        isFeatured: true,
-        isNew: false,
-        addedDate: "2023-10-05"
+        type: "pelicula",
+        coverImage: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR3n8zh.jpg",
+        videoUrl: "https://www.youtube.com/embed/uYPbbksJxIg",
+        downloadLinks: {
+            "720p": "https://example.com/oppenheimer-720p.mp4",
+            "1080p": "https://example.com/oppenheimer-1080p.mp4"
+        }
     },
     {
         id: 5,
-        title: "LA LA LAND",
-        description: "Un pintado de jazz y una superstar a aceite se ensinaron en Los Ángeles.",
-        year: 2016,
-        rating: 8.0,
-        genre: ["romance", "musical", "drama"],
-        duration: "2h 8m",
-        director: "Damien Chazelle",
-        actors: "Ryan Gosling, Emma Stone",
+        title: "The Batman",
+        description: "Batman explora la corrupción en Gotham City mientras persigue al asesino serial conocido como el Acertijo.",
+        year: 2022,
+        rating: 7.8,
+        genre: ["accion", "drama", "crimen"],
+        duration: "2h 56m",
+        director: "Matt Reeves",
+        actors: "Robert Pattinson, Zoë Kravitz, Paul Dano",
         language: "Español/Inglés",
-        size: "2.0 GB",
-        isFeatured: false,
-        isNew: false,
-        addedDate: "2023-09-15"
+        type: "pelicula",
+        coverImage: "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+        videoUrl: "https://www.youtube.com/embed/mqqft2x_Aa4",
+        downloadLinks: {
+            "720p": "https://example.com/batman-720p.mp4",
+            "1080p": "https://example.com/batman-1080p.mp4"
+        }
     },
     {
         id: 6,
-        title: "Avengers: Endgame",
-        description: "Los Viergaderos se inclinen para recibir el Consolidador Traceso.",
-        year: 2019,
-        rating: 8.4,
-        genre: ["accion", "aventura", "ciencia-ficcion"],
-        duration: "3h 2m",
-        director: "Anthony y Joe Russo",
-        actors: "Robert Downey Jr., Chris Evans, Scarlett Johansson",
+        title: "Avatar: The Way of Water",
+        description: "Jake Sully y Ney'tiri forman una familia en Pandora, pero deben enfrentar nuevas amenazas.",
+        year: 2022,
+        rating: 7.6,
+        genre: ["ciencia ficcion", "aventura", "accion"],
+        duration: "3h 12m",
+        director: "James Cameron",
+        actors: "Sam Worthington, Zoe Saldana, Sigourney Weaver",
         language: "Español/Inglés",
-        size: "3.5 GB",
-        isFeatured: true,
-        isNew: false,
-        addedDate: "2023-08-20"
+        type: "pelicula",
+        coverImage: "https://image.tmdb.org/t/p/w500/94xxm5701CzOdJdUEdIuwqZaowx.jpg",
+        videoUrl: "https://www.youtube.com/embed/d9MyW72ELq0",
+        downloadLinks: {
+            "720p": "https://example.com/avatar2-720p.mp4",
+            "1080p": "https://example.com/avatar2-1080p.mp4"
+        }
     },
     {
         id: 7,
-        title: "El Padrino",
-        description: "El patriarca de una dinastía del crimen organizado transfiere el control a su hijo.",
-        year: 1972,
-        rating: 9.2,
-        genre: ["drama", "crimen"],
-        duration: "2h 55m",
-        director: "Francis Ford Coppola",
-        actors: "Marlon Brando, Al Pacino",
+        title: "Top Gun: Maverick",
+        description: "Después de más de treinta años de servicio, Maverick se enfrenta a los fantasmas de su pasado.",
+        year: 2022,
+        rating: 8.2,
+        genre: ["accion", "drama"],
+        duration: "2h 10m",
+        director: "Joseph Kosinski",
+        actors: "Tom Cruise, Miles Teller, Jennifer Connelly",
         language: "Español/Inglés",
-        size: "2.8 GB",
-        isFeatured: false,
-        isNew: false,
-        addedDate: "2023-07-10"
+        type: "pelicula",
+        coverImage: "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg",
+        videoUrl: "https://www.youtube.com/embed/giXco2jaZ_4",
+        downloadLinks: {
+            "720p": "https://example.com/topgun-720p.mp4",
+            "1080p": "https://example.com/topgun-1080p.mp4"
+        }
     },
     {
         id: 8,
-        title: "Inception",
-        description: "Un ladrón que roba secretos a través de sueños recibe una tarea imposible.",
-        year: 2010,
-        rating: 8.8,
-        genre: ["accion", "ciencia-ficcion", "suspenso"],
-        duration: "2h 28m",
-        director: "Christopher Nolan",
-        actors: "Leonardo DiCaprio, Joseph Gordon-Levitt",
+        title: "Black Panther: Wakanda Forever",
+        description: "El pueblo de Wakanda lucha para proteger su nación tras la muerte del Rey T'Challa.",
+        year: 2022,
+        rating: 7.2,
+        genre: ["accion", "aventura", "drama"],
+        duration: "2h 41m",
+        director: "Ryan Coogler",
+        actors: "Letitia Wright, Lupita Nyong'o, Danai Gurira",
         language: "Español/Inglés",
-        size: "2.7 GB",
+        type: "pelicula",
+        coverImage: "https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+        videoUrl: "https://www.youtube.com/embed/RlOB3UALvrQ",
+        downloadLinks: {
+            "720p": "https://example.com/wakanda-720p.mp4",
+            "1080p": "https://example.com/wakanda-1080p.mp4"
+        }
+    }
+];
+
+let seriesData = [
+    {
+        id: 101,
+        title: "Stranger Things",
+        description: "Un grupo de niños se enfrenta a fuerzas sobrenaturales en su pequeño pueblo, mientras el gobierno investiga fenómenos paranormales.",
+        year: 2016,
+        rating: 8.7,
+        genre: ["drama", "ciencia ficcion", "terror"],
+        status: "En emisión",
+        episodeDuration: "50m",
+        creator: "Hermanos Duffer",
+        actors: "Millie Bobby Brown, Finn Wolfhard, Winona Ryder",
+        language: "Español/Inglés",
+        type: "serie",
         isFeatured: true,
-        isNew: false,
-        addedDate: "2023-06-25"
+        coverImage: "https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg",
+        // Temporadas y episodios
+        seasons: [
+            {
+                seasonNumber: 1,
+                episodes: 8,
+                episodesList: [
+                    {
+                        episodeNumber: 1,
+                        title: "Capítulo Uno: La desaparición de Will Byers",
+                        duration: "48m",
+                        description: "En un pequeño pueblo, un niño desaparece misteriosamente.",
+                        videoUrl: "https://www.youtube.com/embed/b9EkMc79ZSU",
+                        downloadLinks: {
+                            "720p": "https://example.com/st-s1e1-720p.mp4",
+                            "1080p": "https://example.com/st-s1e1-1080p.mp4"
+                        }
+                    },
+                    {
+                        episodeNumber: 2,
+                        title: "Capítulo Dos: La loca de la calle Maple",
+                        duration: "52m",
+                        description: "Los amigos de Will buscan respuestas en el bosque.",
+                        videoUrl: "https://www.youtube.com/embed/b9EkMc79ZSU",
+                        downloadLinks: {
+                            "720p": "https://example.com/st-s1e2-720p.mp4",
+                            "1080p": "https://example.com/st-s1e2-1080p.mp4"
+                        }
+                    }
+                ]
+            },
+            {
+                seasonNumber: 2,
+                episodes: 9,
+                episodesList: [
+                    {
+                        episodeNumber: 1,
+                        title: "Capítulo Uno: MADMAX",
+                        duration: "50m",
+                        description: "Un año después, el grupo conoce a una nueva chica.",
+                        videoUrl: "https://www.youtube.com/embed/b9EkMc79ZSU",
+                        downloadLinks: {
+                            "720p": "https://example.com/st-s2e1-720p.mp4",
+                            "1080p": "https://example.com/st-s2e1-1080p.mp4"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 102,
+        title: "The Mandalorian",
+        description: "Un pistolero solitario en los confines de la galaxia, lejos de la autoridad de la Nueva República.",
+        year: 2019,
+        rating: 8.8,
+        genre: ["ciencia ficcion", "aventura", "accion"],
+        status: "En emisión",
+        episodeDuration: "40m",
+        creator: "Jon Favreau",
+        actors: "Pedro Pascal, Carl Weathers, Gina Carano",
+        language: "Español/Inglés",
+        type: "serie",
+        isFeatured: true,
+        coverImage: "https://image.tmdb.org/t/p/w500/sWgBv7LV2PRoQgkxw0kdF8tVkP1.jpg",
+        seasons: [
+            {
+                seasonNumber: 1,
+                episodes: 8,
+                episodesList: [
+                    {
+                        episodeNumber: 1,
+                        title: "Capítulo 1: El Mandaloriano",
+                        duration: "39m",
+                        description: "Un pistolero solitario acepta un misterioso trabajo.",
+                        videoUrl: "https://www.youtube.com/embed/aOC8E8z_ifw",
+                        downloadLinks: {
+                            "720p": "https://example.com/mando-s1e1-720p.mp4",
+                            "1080p": "https://example.com/mando-s1e1-1080p.mp4"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 103,
+        title: "Breaking Bad",
+        description: "Un profesor de química con cáncer se asocia con un exalumno para fabricar y vender metanfetamina.",
+        year: 2008,
+        rating: 9.5,
+        genre: ["drama", "crimen", "suspenso"],
+        status: "Finalizada",
+        episodeDuration: "49m",
+        creator: "Vince Gilligan",
+        actors: "Bryan Cranston, Aaron Paul, Anna Gunn",
+        language: "Español/Inglés",
+        type: "serie",
+        coverImage: "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",
+        seasons: [
+            {
+                seasonNumber: 1,
+                episodes: 7,
+                episodesList: [
+                    {
+                        episodeNumber: 1,
+                        title: "Piloto",
+                        duration: "58m",
+                        description: "Walter White, un profesor de química, descubre que tiene cáncer.",
+                        videoUrl: "https://www.youtube.com/embed/HhesaQXLuRY",
+                        downloadLinks: {
+                            "720p": "https://example.com/bb-s1e1-720p.mp4",
+                            "1080p": "https://example.com/bb-s1e1-1080p.mp4"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 104,
+        title: "Game of Thrones",
+        description: "Nobles familias luchan por el control del Trono de Hierro de los Siete Reinos de Westeros.",
+        year: 2011,
+        rating: 9.2,
+        genre: ["drama", "aventura", "fantasia"],
+        status: "Finalizada",
+        episodeDuration: "60m",
+        creator: "David Benioff, D.B. Weiss",
+        actors: "Emilia Clarke, Kit Harington, Peter Dinklage",
+        language: "Español/Inglés",
+        type: "serie",
+        coverImage: "https://image.tmdb.org/t/p/w500/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",
+        seasons: [
+            {
+                seasonNumber: 1,
+                episodes: 10,
+                episodesList: [
+                    {
+                        episodeNumber: 1,
+                        title: "Winter Is Coming",
+                        duration: "62m",
+                        description: "Lord Ned Stark se convierte en la Mano del Rey.",
+                        videoUrl: "https://www.youtube.com/embed/BpJYNVhGf1s",
+                        downloadLinks: {
+                            "720p": "https://example.com/got-s1e1-720p.mp4",
+                            "1080p": "https://example.com/got-s1e1-1080p.mp4"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 105,
+        title: "The Witcher",
+        description: "Geralt de Rivia, un cazador de monstruos mutante, viaja en busca de su destino en un mundo turbulento.",
+        year: 2019,
+        rating: 8.2,
+        genre: ["aventura", "fantasia", "accion"],
+        status: "En emisión",
+        episodeDuration: "60m",
+        creator: "Lauren Schmidt Hissrich",
+        actors: "Henry Cavill, Anya Chalotra, Freya Allan",
+        language: "Español/Inglés",
+        type: "serie",
+        isFeatured: true,
+        coverImage: "https://image.tmdb.org/t/p/w500/7vjaCdMw15FEbXyLQTVa04URsPm.jpg",
+        seasons: [
+            {
+                seasonNumber: 1,
+                episodes: 8,
+                episodesList: [
+                    {
+                        episodeNumber: 1,
+                        title: "El principio del fin",
+                        duration: "61m",
+                        description: "Geralt de Rivia, un cazador de monstruos, descubre su destino.",
+                        videoUrl: "https://www.youtube.com/embed/ndl1W4ltcmg",
+                        downloadLinks: {
+                            "720p": "https://example.com/witcher-s1e1-720p.mp4",
+                            "1080p": "https://example.com/witcher-s1e1-1080p.mp4"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 106,
+        title: "La Casa de Papel",
+        description: "Ocho ladrones toman rehenes en la Fábrica Nacional de Moneda y Timbre de España.",
+        year: 2017,
+        rating: 8.2,
+        genre: ["drama", "crimen", "suspenso"],
+        status: "Finalizada",
+        episodeDuration: "50m",
+        creator: "Álex Pina",
+        actors: "Úrsula Corberó, Álvaro Morte, Itziar Ituño",
+        language: "Español",
+        type: "serie",
+        coverImage: "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg",
+        seasons: [
+            {
+                seasonNumber: 1,
+                episodes: 13,
+                episodesList: [
+                    {
+                        episodeNumber: 1,
+                        title: "Episodio 1",
+                        duration: "50m",
+                        description: "El Profesor recluta a un equipo para el mayor atraco de la historia.",
+                        videoUrl: "https://www.youtube.com/embed/To_kVMMu-Ls",
+                        downloadLinks: {
+                            "720p": "https://example.com/lcdp-s1e1-720p.mp4",
+                            "1080p": "https://example.com/lcdp-s1e1-1080p.mp4"
+                        }
+                    }
+                ]
+            }
+        ]
     }
 ];
 
 // ===== ESTADO GLOBAL =====
-let currentFilter = 'todas';
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let downloads = JSON.parse(localStorage.getItem('downloads')) || [];
-let currentMovieDetail = null;
+let currentContent = null;
 
 // ===== FUNCIONES DE NAVEGACIÓN =====
 function showSection(sectionId) {
-    // Ocultar todas las secciones
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active');
     });
     
-    // Ocultar detalle si está visible
-    document.getElementById('detallePelicula').classList.remove('active');
-    
-    // Mostrar la sección seleccionada
-    document.getElementById(sectionId).classList.add('active');
-    
-    // Actualizar botones de navegación
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    event.currentTarget.classList.add('active');
     
-    // Cargar contenido específico de la sección
+    event.currentTarget.classList.add('active');
+    document.getElementById(sectionId).classList.add('active');
+    
     switch(sectionId) {
         case 'inicio':
             loadHomeContent();
             break;
-        case 'catalogo':
-            loadCatalog();
+        case 'peliculas':
+            loadAllMovies();
             break;
-        case 'recientes':
-            loadRecentMovies();
+        case 'series':
+            loadAllSeries();
             break;
         case 'favoritos':
             loadFavorites();
@@ -175,640 +437,739 @@ function showSection(sectionId) {
     }
 }
 
-// ===== FUNCIONES DE PELÍCULAS =====
-function createMovieCard(movie) {
+// ===== FUNCIONES DE CONTENIDO =====
+function createContentCard(item) {
     const card = document.createElement('div');
     card.className = 'movie-card';
-    card.dataset.id = movie.id;
-    card.dataset.genre = movie.genre.join(' ');
+    card.dataset.id = item.id;
+    card.dataset.type = item.type;
     
-    const isFavorite = favorites.includes(movie.id);
+    const isFavorite = favorites.includes(item.id);
     
     card.innerHTML = `
-        ${movie.isNew ? '<span class="movie-badge">NUEVO</span>' : ''}
-        <div class="favorite-badge ${isFavorite ? 'active' : ''}" onclick="toggleMovieFavorite(${movie.id}, event)">
+        ${item.type === 'serie' ? '<span class="badge serie">SERIE</span>' : ''}
+        ${item.isFeatured ? '<span class="badge new">NUEVO</span>' : ''}
+        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${item.id}, event)">
             <i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i>
-        </div>
-        <img src="https://via.placeholder.com/300x450/2a2a2a/ffffff?text=${encodeURIComponent(movie.title.substring(0, 20))}" 
-             alt="${movie.title}" class="movie-poster">
+        </button>
+        <img src="${item.coverImage}" 
+             alt="${item.title}" 
+             class="movie-poster"
+             onerror="this.src='https://via.placeholder.com/300x450/2a2a2a/ffffff?text=No+Image'">
         <div class="movie-info">
-            <h3 class="movie-title">${movie.title}</h3>
-            <p class="movie-description">${movie.description}</p>
+            <h3 class="movie-title">${item.title}</h3>
+            <p class="movie-description">${item.description}</p>
             <div class="movie-meta">
-                <span class="movie-year">${movie.year}</span>
-                <span class="movie-rating">${movie.rating}/10</span>
+                <span class="movie-year">${item.year}</span>
+                <span class="movie-rating">${item.rating}/10</span>
             </div>
+            ${item.type === 'serie' ? `<div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--accent);">
+                <i class="fas fa-tv"></i> ${item.seasons ? item.seasons.length + ' Temp' : '1 Temp'}
+            </div>` : ''}
         </div>
     `;
     
     card.addEventListener('click', (e) => {
-        if (!e.target.closest('.favorite-badge')) {
-            showMovieDetail(movie.id);
+        if (!e.target.closest('.favorite-btn')) {
+            showDetail(item);
         }
     });
     
     return card;
 }
 
-function showMovieDetail(movieId) {
-    const movie = moviesData.find(m => m.id === movieId);
-    if (!movie) return;
+// ===== FUNCIONES DE DETALLE =====
+function showDetail(item) {
+    currentContent = item;
+    const modal = document.getElementById('detailModal');
+    const modalBody = document.querySelector('.modal-body');
     
-    currentMovieDetail = movie;
+    if (item.type === 'serie') {
+        modalBody.innerHTML = createSerieDetailHTML(item);
+    } else {
+        modalBody.innerHTML = createMovieDetailHTML(item);
+    }
     
-    // Actualizar información en el detalle
-    document.getElementById('detailTitle').textContent = movie.title;
-    document.getElementById('detailDescription').textContent = movie.description;
-    document.getElementById('detailGenre').textContent = movie.genre.join(', ');
-    document.getElementById('detailYear').textContent = movie.year;
-    document.getElementById('detailRating').textContent = `${movie.rating}/10`;
-    document.getElementById('detailDuration').textContent = movie.duration;
-    document.getElementById('detailDirector').textContent = movie.director;
-    document.getElementById('detailActors').textContent = movie.actors;
-    document.getElementById('detailLanguage').textContent = movie.language;
-    document.getElementById('detailSize').textContent = movie.size;
-    
-    // Actualizar botón de favoritos
-    const favoriteBtn = document.getElementById('favoriteBtn');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function createMovieDetailHTML(movie) {
     const isFavorite = favorites.includes(movie.id);
-    favoriteBtn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> ${isFavorite ? 'Quitar de' : 'Agregar a'} Favoritos`;
     
-    // Configurar video (simulado)
-    const videoPlayer = document.getElementById('moviePlayer');
-    videoPlayer.poster = `https://via.placeholder.com/1280x720/2a2a2a/ffffff?text=${encodeURIComponent(movie.title)}`;
+    return `
+        <div class="detail-header">
+            <img src="${movie.coverImage}" alt="${movie.title}" class="detail-poster">
+            <div class="detail-info">
+                <h1>${movie.title} (${movie.year})</h1>
+                <div class="detail-meta">
+                    <span class="genre">${movie.genre.join(', ')}</span>
+                    <span class="duration">${movie.duration}</span>
+                    <span class="rating">⭐ ${movie.rating}/10</span>
+                </div>
+                <p class="description">${movie.description}</p>
+                
+                <div class="detail-actions">
+                    <button class="action-btn watch-btn" onclick="playVideo('${movie.videoUrl}', '${movie.title}')">
+                        <i class="fas fa-play"></i> Ver Ahora
+                    </button>
+                    <button class="action-btn favorite-btn-detail ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${movie.id})">
+                        <i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> Favorito
+                    </button>
+                    <button class="action-btn download-btn" onclick="showDownloadOptions(${movie.id}, '${movie.title}')">
+                        <i class="fas fa-download"></i> Descargar
+                    </button>
+                </div>
+                
+                <div class="detail-extra">
+                    <h3><i class="fas fa-info-circle"></i> Información</h3>
+                    <div class="info-grid">
+                        <div><strong>Director:</strong> ${movie.director}</div>
+                        <div><strong>Actores:</strong> ${movie.actors}</div>
+                        <div><strong>Idioma:</strong> ${movie.language}</div>
+                        <div><strong>Duración:</strong> ${movie.duration}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function createSerieDetailHTML(serie) {
+    const isFavorite = favorites.includes(serie.id);
     
-    // Generar sugerencias
-    generateSuggestions(movie);
+    let seasonsHTML = '';
+    if (serie.seasons) {
+        seasonsHTML = `
+            <div class="seasons-container">
+                <h3><i class="fas fa-layer-group"></i> Temporadas</h3>
+                ${serie.seasons.map(season => `
+                    <div class="season-card" onclick="showSeasonEpisodes(${serie.id}, ${season.seasonNumber})">
+                        <div class="season-header">
+                            <h4>Temporada ${season.seasonNumber}</h4>
+                            <span>${season.episodes} episodios</span>
+                        </div>
+                        <div class="season-episodes" id="season-${serie.id}-${season.seasonNumber}" style="display: none;">
+                            ${season.episodesList ? season.episodesList.map(episode => `
+                                <div class="episode-card" onclick="playEpisode('${episode.videoUrl}', '${serie.title} - ${episode.title}')">
+                                    <div class="episode-number">${episode.episodeNumber}</div>
+                                    <h5>${episode.title}</h5>
+                                    <p class="episode-duration">${episode.duration}</p>
+                                    <button class="download-episode-btn" onclick="showEpisodeDownload(${serie.id}, ${season.seasonNumber}, ${episode.episodeNumber}, event)">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            `).join('') : ''}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
     
-    // Ocultar secciones principales y mostrar detalle
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.remove('active');
+    return `
+        <div class="detail-header">
+            <img src="${serie.coverImage}" alt="${serie.title}" class="detail-poster">
+            <div class="detail-info">
+                <h1>${serie.title} (${serie.year})</h1>
+                <div class="detail-meta">
+                    <span class="genre">${serie.genre.join(', ')}</span>
+                    <span class="status">${serie.status}</span>
+                    <span class="rating">⭐ ${serie.rating}/10</span>
+                </div>
+                <p class="description">${serie.description}</p>
+                
+                <div class="detail-actions">
+                    <button class="action-btn favorite-btn-detail ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${serie.id})">
+                        <i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> Favorito
+                    </button>
+                    <button class="action-btn download-btn" onclick="showSerieDownloadOptions(${serie.id}, '${serie.title}')">
+                        <i class="fas fa-download"></i> Descargar Serie
+                    </button>
+                </div>
+                
+                <div class="detail-extra">
+                    <h3><i class="fas fa-info-circle"></i> Información</h3>
+                    <div class="info-grid">
+                        <div><strong>Creador:</strong> ${serie.creator}</div>
+                        <div><strong>Actores:</strong> ${serie.actors}</div>
+                        <div><strong>Idioma:</strong> ${serie.language}</div>
+                        <div><strong>Duración episodio:</strong> ${serie.episodeDuration}</div>
+                        <div><strong>Temporadas:</strong> ${serie.seasons ? serie.seasons.length : 1}</div>
+                        <div><strong>Estado:</strong> ${serie.status}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ${seasonsHTML}
+    `;
+}
+
+// ===== FUNCIONES DE VIDEO =====
+function playVideo(videoUrl, title) {
+    const modal = document.getElementById('videoModal');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const videoInfo = document.getElementById('videoInfo');
+    
+    // Configurar el iframe con el video
+    // Puede ser YouTube, Vimeo, o un enlace directo a MP4
+    if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+        // Extraer ID de YouTube
+        const videoId = videoUrl.includes('v=') ? 
+            videoUrl.split('v=')[1].split('&')[0] : 
+            videoUrl.split('/').pop();
+        videoPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+    } else if (videoUrl.includes('vimeo.com')) {
+        // Vimeo
+        const videoId = videoUrl.split('/').pop();
+        videoPlayer.src = `https://player.vimeo.com/video/${videoId}?autoplay=1`;
+    } else {
+        // Enlace directo a MP4 u otro formato
+        videoPlayer.src = videoUrl;
+    }
+    
+    videoInfo.innerHTML = `<h3>${title}</h3>`;
+    
+    // Mostrar opciones de descarga si es una película
+    if (currentContent && currentContent.type === 'pelicula' && currentContent.downloadLinks) {
+        showDownloadButtons(currentContent.downloadLinks, title);
+    }
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function playEpisode(videoUrl, title) {
+    playVideo(videoUrl, title);
+}
+
+// ===== FUNCIONES DE DESCARGA =====
+function showDownloadOptions(contentId, title) {
+    const content = [...moviesData, ...seriesData].find(item => item.id === contentId);
+    if (!content || !content.downloadLinks) return;
+    
+    showDownloadButtons(content.downloadLinks, title);
+}
+
+function showSerieDownloadOptions(serieId, title) {
+    const serie = seriesData.find(s => s.id === serieId);
+    if (!serie) return;
+    
+    const modal = document.getElementById('videoModal');
+    const qualityButtons = document.getElementById('qualityButtons');
+    
+    let buttonsHTML = '';
+    
+    // Opción para descargar toda la serie
+    if (serie.seasons) {
+        serie.seasons.forEach(season => {
+            if (season.episodesList) {
+                season.episodesList.forEach(episode => {
+                    if (episode.downloadLinks) {
+                        Object.entries(episode.downloadLinks).forEach(([quality, url]) => {
+                            buttonsHTML += `
+                                <button class="quality-btn" onclick="downloadFile('${url}', '${serie.title} - Temp ${season.seasonNumber} Ep ${episode.episodeNumber} - ${quality}')">
+                                    <span class="quality-label">T${season.seasonNumber} E${episode.episodeNumber} - ${quality}</span>
+                                    <span class="quality-size">~1.5 GB</span>
+                                </button>
+                            `;
+                        });
+                    }
+                });
+            }
+        });
+    }
+    
+    qualityButtons.innerHTML = buttonsHTML || '<p>No hay enlaces de descarga disponibles</p>';
+    modal.classList.add('active');
+}
+
+function showEpisodeDownload(serieId, seasonNum, episodeNum, event) {
+    event.stopPropagation();
+    
+    const serie = seriesData.find(s => s.id === serieId);
+    if (!serie || !serie.seasons) return;
+    
+    const season = serie.seasons.find(s => s.seasonNumber === seasonNum);
+    if (!season || !season.episodesList) return;
+    
+    const episode = season.episodesList.find(e => e.episodeNumber === episodeNum);
+    if (!episode || !episode.downloadLinks) return;
+    
+    showDownloadButtons(episode.downloadLinks, `${serie.title} - Temp ${seasonNum} Ep ${episodeNum}`);
+}
+
+function showDownloadButtons(downloadLinks, title) {
+    const qualityButtons = document.getElementById('qualityButtons');
+    
+    let buttonsHTML = '';
+    Object.entries(downloadLinks).forEach(([quality, url]) => {
+        buttonsHTML += `
+            <button class="quality-btn" onclick="downloadFile('${url}', '${title} - ${quality}')">
+                <span class="quality-label">${quality}</span>
+                <span class="quality-size">${quality === '4K' ? '~5 GB' : quality === '1080p' ? '~2 GB' : '~1 GB'}</span>
+            </button>
+        `;
     });
-    document.getElementById('detallePelicula').classList.add('active');
-}
-
-function hideMovieDetail() {
-    document.getElementById('detallePelicula').classList.remove('active');
-    document.getElementById('inicio').classList.add('active');
     
-    // Actualizar botón activo
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.querySelector('i.fa-home')) {
-            btn.classList.add('active');
-        }
-    });
+    qualityButtons.innerHTML = buttonsHTML;
 }
 
-// ===== FILTRADO =====
-function filterMovies(filter) {
-    // Actualizar botones de filtro
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    event.currentTarget.classList.add('active');
+function downloadFile(url, filename) {
+    // Crear un enlace temporal para descargar
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     
-    currentFilter = filter;
-    loadCatalog();
+    // Guardar en historial de descargas
+    const downloadItem = {
+        id: Date.now(),
+        title: filename,
+        url: url,
+        date: new Date().toLocaleString(),
+        status: 'completado'
+    };
+    
+    downloads.unshift(downloadItem);
+    localStorage.setItem('downloads', JSON.stringify(downloads));
+    
+    alert(`Descarga iniciada: ${filename}`);
 }
 
-function sortMovies() {
-    const sortSelect = document.getElementById('sortSelect');
-    const sortValue = sortSelect.value;
-    loadCatalog(sortValue);
-}
-
-// ===== FAVORITOS =====
-function toggleMovieFavorite(movieId, event) {
+// ===== FUNCIONES DE FAVORITOS =====
+function toggleFavorite(contentId, event) {
     if (event) event.stopPropagation();
     
-    const index = favorites.indexOf(movieId);
-    
+    const index = favorites.indexOf(contentId);
     if (index === -1) {
-        favorites.push(movieId);
-        showNotification('Película agregada a favoritos');
+        favorites.push(contentId);
+        alert('Agregado a favoritos');
     } else {
         favorites.splice(index, 1);
-        showNotification('Película eliminada de favoritos');
+        alert('Eliminado de favoritos');
     }
     
-    // Guardar en localStorage
     localStorage.setItem('favorites', JSON.stringify(favorites));
     
-    // Recargar la vista actual
+    // Actualizar botones de favorito
+    updateFavoriteButtons(contentId);
+    
+    // Si estamos en la sección de favoritos, recargar
     if (document.getElementById('favoritos').classList.contains('active')) {
         loadFavorites();
-    } else if (document.getElementById('detallePelicula').classList.contains('active')) {
-        // Actualizar botón en detalle
-        const favoriteBtn = document.getElementById('favoriteBtn');
-        const isFavorite = favorites.includes(currentMovieDetail.id);
-        favoriteBtn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> ${isFavorite ? 'Quitar de' : 'Agregar a'} Favoritos`;
     }
+}
+
+function updateFavoriteButtons(contentId) {
+    // Actualizar botones en tarjetas
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+        if (btn.closest('.movie-card').dataset.id == contentId) {
+            const isFavorite = favorites.includes(parseInt(contentId));
+            btn.classList.toggle('active', isFavorite);
+            btn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i>`;
+        }
+    });
     
-    // Actualizar todas las tarjetas visibles
-    updateFavoriteBadges();
-}
-
-function toggleFavorite() {
-    if (!currentMovieDetail) return;
-    toggleMovieFavorite(currentMovieDetail.id);
-}
-
-function clearFavorites() {
-    if (confirm('¿Estás seguro de que quieres eliminar todos tus favoritos?')) {
-        favorites = [];
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        loadFavorites();
-        showNotification('Favoritos eliminados');
+    // Actualizar botón en detalle
+    const detailBtn = document.querySelector('.favorite-btn-detail');
+    if (detailBtn && currentContent && currentContent.id == contentId) {
+        const isFavorite = favorites.includes(contentId);
+        detailBtn.classList.toggle('active', isFavorite);
+        detailBtn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i> Favorito`;
     }
 }
 
-function updateFavoriteBadges() {
-    document.querySelectorAll('.favorite-badge').forEach(badge => {
-        const movieId = parseInt(badge.closest('.movie-card').dataset.id);
-        const isFavorite = favorites.includes(movieId);
-        
-        badge.className = `favorite-badge ${isFavorite ? 'active' : ''}`;
-        badge.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i>`;
+// ===== FUNCIONES DE CARGA =====
+function loadHomeContent() {
+    const popularGrid = document.getElementById('popularGrid');
+    const seriesGrid = document.getElementById('seriesGrid');
+    const estrenosGrid = document.getElementById('estrenosGrid');
+    
+    // Películas populares
+    const popularMovies = moviesData.filter(m => m.isFeatured).slice(0, 6);
+    popularGrid.innerHTML = '';
+    popularMovies.forEach(movie => {
+        popularGrid.appendChild(createContentCard(movie));
+    });
+    
+    // Series destacadas
+    const featuredSeries = seriesData.filter(s => s.isFeatured).slice(0, 6);
+    seriesGrid.innerHTML = '';
+    featuredSeries.forEach(serie => {
+        seriesGrid.appendChild(createContentCard(serie));
+    });
+    
+    // Estrenos (últimas películas)
+    const estrenos = [...moviesData].sort((a, b) => b.year - a.year).slice(0, 6);
+    estrenosGrid.innerHTML = '';
+    estrenos.forEach(movie => {
+        estrenosGrid.appendChild(createContentCard(movie));
+    });
+}
+
+function loadAllMovies() {
+    const grid = document.getElementById('peliculasGrid');
+    grid.innerHTML = '';
+    
+    moviesData.forEach(movie => {
+        grid.appendChild(createContentCard(movie));
+    });
+}
+
+function loadAllSeries() {
+    const grid = document.getElementById('allSeriesGrid');
+    grid.innerHTML = '';
+    
+    seriesData.forEach(serie => {
+        grid.appendChild(createContentCard(serie));
     });
 }
 
 function loadFavorites() {
-    const favoritesGrid = document.getElementById('favoritesGrid');
-    const emptyState = document.getElementById('emptyFavorites');
+    const grid = document.getElementById('favoritosGrid');
+    grid.innerHTML = '';
     
     if (favorites.length === 0) {
-        favoritesGrid.innerHTML = '';
-        emptyState.style.display = 'block';
+        grid.innerHTML = '<p class="empty-message">No tienes favoritos aún</p>';
         return;
     }
     
-    emptyState.style.display = 'none';
-    favoritesGrid.innerHTML = '';
-    
-    const favoriteMovies = moviesData.filter(movie => favorites.includes(movie.id));
-    favoriteMovies.forEach(movie => {
-        favoritesGrid.appendChild(createMovieCard(movie));
+    const allContent = [...moviesData, ...seriesData];
+    favorites.forEach(favId => {
+        const content = allContent.find(item => item.id === favId);
+        if (content) {
+            grid.appendChild(createContentCard(content));
+        }
     });
-}
-
-// ===== DESCARGAS =====
-function downloadCurrentMovie() {
-    if (!currentMovieDetail) return;
-    
-    const download = {
-        id: Date.now(),
-        movieId: currentMovieDetail.id,
-        title: currentMovieDetail.title,
-        quality: '1080p',
-        date: new Date().toISOString(),
-        status: 'completado'
-    };
-    
-    downloads.unshift(download);
-    localStorage.setItem('downloads', JSON.stringify(downloads));
-    
-    showNotification(`Descargando ${currentMovieDetail.title}...`);
-    
-    // Simular descarga
-    setTimeout(() => {
-        showNotification(`¡${currentMovieDetail.title} descargada exitosamente!`);
-        loadDownloads();
-    }, 2000);
-}
-
-function clearDownloads() {
-    if (confirm('¿Estás seguro de que quieres eliminar el historial de descargas?')) {
-        downloads = [];
-        localStorage.setItem('downloads', JSON.stringify(downloads));
-        loadDownloads();
-        showNotification('Historial de descargas eliminado');
-    }
 }
 
 function loadDownloads() {
-    const downloadsList = document.getElementById('downloadsList');
+    const container = document.getElementById('downloadsContainer');
     
     if (downloads.length === 0) {
-        downloadsList.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-download fa-3x"></i>
-                <h3>No hay descargas recientes</h3>
-                <p>Las películas que descargues aparecerán aquí</p>
-            </div>
-        `;
+        container.innerHTML = '<p class="empty-message">No hay descargas recientes</p>';
         return;
     }
     
-    downloadsList.innerHTML = '';
-    
-    downloads.slice(0, 10).forEach(download => {
-        const movie = moviesData.find(m => m.id === download.movieId);
-        if (!movie) return;
-        
-        const downloadItem = document.createElement('div');
-        downloadItem.className = 'download-item';
-        downloadItem.innerHTML = `
-            <img src="https://via.placeholder.com/80x120/2a2a2a/ffffff?text=${encodeURIComponent(movie.title.substring(0, 2))}" 
-                 alt="${movie.title}">
-            <div class="download-info">
-                <h4>${movie.title}</h4>
-                <small>${new Date(download.date).toLocaleDateString()} • ${download.quality}</small>
+    let downloadsHTML = '';
+    downloads.forEach(download => {
+        downloadsHTML += `
+            <div class="download-item">
+                <img src="https://via.placeholder.com/100x150/2a2a2a/ffffff?text=🎬" alt="Download">
+                <div class="download-info">
+                    <h4>${download.title}</h4>
+                    <div class="download-meta">
+                        <span><i class="far fa-calendar"></i> ${download.date}</span>
+                        <span><i class="fas fa-download"></i> ${download.status}</span>
+                    </div>
+                    <button class="download-again-btn" onclick="window.open('${download.url}', '_blank')">
+                        <i class="fas fa-redo"></i> Descargar de nuevo
+                    </button>
+                </div>
             </div>
-            <span class="download-status">${download.status}</span>
         `;
-        
-        downloadsList.appendChild(downloadItem);
     });
+    
+    container.innerHTML = downloadsHTML;
 }
 
-// ===== BÚSQUEDA =====
-function searchMovies() {
-    const searchInput = document.getElementById('searchInput');
-    const query = searchInput.value.toLowerCase().trim();
+// ===== FUNCIONES DE FILTRO =====
+function filterAll() {
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    showSection('inicio');
+}
+
+function filterByGenre(genre) {
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
     
-    if (query.length < 2) {
-        document.getElementById('searchSuggestions').classList.remove('active');
+    // Filtrar y mostrar contenido del género seleccionado
+    const allContent = [...moviesData, ...seriesData];
+    const filtered = allContent.filter(item => 
+        item.genre.some(g => g.toLowerCase().includes(genre.toLowerCase()))
+    );
+    
+    const grid = document.getElementById('peliculasGrid');
+    grid.innerHTML = '';
+    
+    if (filtered.length === 0) {
+        grid.innerHTML = `<p class="empty-message">No hay contenido en ${genre}</p>`;
         return;
     }
     
-    const suggestions = moviesData.filter(movie =>
-        movie.title.toLowerCase().includes(query) ||
-        movie.description.toLowerCase().includes(query)
-    ).slice(0, 5);
+    filtered.forEach(item => {
+        grid.appendChild(createContentCard(item));
+    });
     
-    const suggestionsContainer = document.getElementById('searchSuggestions');
-    suggestionsContainer.innerHTML = '';
+    // Cambiar a sección de películas para mostrar resultados
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
     
-    if (suggestions.length > 0) {
-        suggestions.forEach(movie => {
-            const suggestionItem = document.createElement('div');
-            suggestionItem.className = 'suggestion-item';
-            suggestionItem.textContent = movie.title;
-            suggestionItem.addEventListener('click', () => {
-                searchInput.value = '';
-                suggestionsContainer.classList.remove('active');
-                showMovieDetail(movie.id);
-            });
-            suggestionsContainer.appendChild(suggestionItem);
-        });
-        suggestionsContainer.classList.add('active');
-    } else {
-        suggestionsContainer.classList.remove('active');
-    }
+    document.getElementById('peliculas').classList.add('active');
 }
 
+// ===== FUNCIONES DE BÚSQUEDA =====
 function performSearch() {
     const searchInput = document.getElementById('searchInput');
     const query = searchInput.value.toLowerCase().trim();
     
     if (query === '') return;
     
-    const results = moviesData.filter(movie =>
-        movie.title.toLowerCase().includes(query) ||
-        movie.description.toLowerCase().includes(query)
+    const allContent = [...moviesData, ...seriesData];
+    const results = allContent.filter(item => 
+        item.title.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.genre.some(g => g.toLowerCase().includes(query))
     );
     
-    // Mostrar resultados en catálogo
-    showSection('catalogo');
+    const grid = document.getElementById('peliculasGrid');
+    grid.innerHTML = '';
     
-    const catalogGrid = document.getElementById('catalogGrid');
-    catalogGrid.innerHTML = '';
-    
-    if (results.length > 0) {
-        results.forEach(movie => {
-            catalogGrid.appendChild(createMovieCard(movie));
-        });
-        document.getElementById('movieCount').textContent = `${results.length} resultados`;
+    if (results.length === 0) {
+        grid.innerHTML = '<p class="empty-message">No se encontraron resultados</p>';
     } else {
-        catalogGrid.innerHTML = `
-            <div class="empty-state" style="grid-column: 1/-1;">
-                <i class="fas fa-search fa-3x"></i>
-                <h3>No se encontraron resultados</h3>
-                <p>Intenta con otras palabras clave</p>
-            </div>
-        `;
-        document.getElementById('movieCount').textContent = '0 resultados';
+        results.forEach(item => {
+            grid.appendChild(createContentCard(item));
+        });
     }
     
+    // Mostrar resultados en sección de películas
+    showSection('peliculas');
     searchInput.value = '';
-    document.getElementById('searchSuggestions').classList.remove('active');
 }
 
-function showSuggestions() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput.value.length >= 2) {
-        searchMovies();
-    }
-}
-
-// ===== CARGA DE CONTENIDO =====
-function loadInitialMovies() {
-    loadHomeContent();
-    loadCatalog();
-    loadRecentMovies();
-}
-
-function loadHomeContent() {
-    // Destacadas
-    const featuredMovies = moviesData.filter(movie => movie.isFeatured);
-    const featuredGrid = document.getElementById('featuredGrid');
-    featuredGrid.innerHTML = '';
-    featuredMovies.slice(0, 4).forEach(movie => {
-        featuredGrid.appendChild(createMovieCard(movie));
+// ===== FUNCIONES DE TEMPORADAS =====
+function showSeasonEpisodes(serieId, seasonNum) {
+    const seasonDiv = document.getElementById(`season-${serieId}-${seasonNum}`);
+    const isVisible = seasonDiv.style.display === 'block';
+    
+    // Ocultar todas las temporadas primero
+    document.querySelectorAll('.season-episodes').forEach(div => {
+        div.style.display = 'none';
     });
     
-    // Novedades
-    const newMovies = moviesData.filter(movie => movie.isNew);
-    const novedadesGrid = document.getElementById('novedadesGrid');
-    novedadesGrid.innerHTML = '';
-    newMovies.slice(0, 4).forEach(movie => {
-        novedadesGrid.appendChild(createMovieCard(movie));
-    });
+    // Mostrar/ocultar la temporada seleccionada
+    seasonDiv.style.display = isVisible ? 'none' : 'block';
 }
 
-function loadCatalog(sortValue = 'recientes') {
-    let filteredMovies = [...moviesData];
-    
-    // Filtrar por categoría
-    if (currentFilter !== 'todas') {
-        if (currentFilter === '2024') {
-            filteredMovies = filteredMovies.filter(movie => movie.year == 2024);
-        } else {
-            filteredMovies = filteredMovies.filter(movie => 
-                movie.genre.some(g => g.toLowerCase().includes(currentFilter))
-            );
-        }
-    }
-    
-    // Ordenar
-    switch(sortValue) {
-        case 'recientes':
-            filteredMovies.sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate));
-            break;
-        case 'antiguas':
-            filteredMovies.sort((a, b) => new Date(a.addedDate) - new Date(b.addedDate));
-            break;
-        case 'rating':
-            filteredMovies.sort((a, b) => b.rating - a.rating);
-            break;
-        case 'nombre':
-            filteredMovies.sort((a, b) => a.title.localeCompare(b.title));
-            break;
-    }
-    
-    // Mostrar
-    const catalogGrid = document.getElementById('catalogGrid');
-    catalogGrid.innerHTML = '';
-    
-    if (filteredMovies.length === 0) {
-        catalogGrid.innerHTML = `
-            <div class="empty-state" style="grid-column: 1/-1;">
-                <i class="fas fa-film fa-3x"></i>
-                <h3>No hay películas</h3>
-                <p>No se encontraron películas con los filtros seleccionados</p>
-            </div>
-        `;
-    } else {
-        filteredMovies.forEach(movie => {
-            catalogGrid.appendChild(createMovieCard(movie));
-        });
-    }
-    
-    // Actualizar contador
-    document.getElementById('movieCount').textContent = `${filteredMovies.length} películas`;
-}
-
-function loadRecentMovies() {
-    const recentMovies = [...moviesData]
-        .sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate))
-        .slice(0, 8);
-    
-    const recentGrid = document.getElementById('recentGrid');
-    recentGrid.innerHTML = '';
-    recentMovies.forEach(movie => {
-        recentGrid.appendChild(createMovieCard(movie));
-    });
-}
-
-function filterRecent(timeFilter) {
-    const timeBtns = document.querySelectorAll('.time-btn');
-    timeBtns.forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    
-    // En una implementación real, aquí filtrarías por fecha
-    // Por ahora solo recargamos
-    loadRecentMovies();
-}
-
-function loadMoreMovies() {
-    // En una implementación real, cargarías más películas
-    // Por ahora solo mostramos un mensaje
-    showNotification('Cargando más películas...');
-}
-
-// ===== SUGERENCIAS =====
-function generateSuggestions(currentMovie) {
-    const suggestionsGrid = document.getElementById('suggestionsGrid');
-    suggestionsGrid.innerHTML = '';
-    
-    // Buscar películas del mismo género
-    const suggestions = moviesData
-        .filter(movie => 
-            movie.id !== currentMovie.id &&
-            movie.genre.some(g => currentMovie.genre.includes(g))
-        )
-        .slice(0, 4);
-    
-    if (suggestions.length === 0) {
-        // Si no hay del mismo género, mostrar películas destacadas
-        moviesData
-            .filter(movie => movie.id !== currentMovie.id && movie.isFeatured)
-            .slice(0, 4)
-            .forEach(movie => {
-                suggestionsGrid.appendChild(createMovieCard(movie));
-            });
-    } else {
-        suggestions.forEach(movie => {
-            suggestionsGrid.appendChild(createMovieCard(movie));
-        });
-    }
-}
-
-// ===== REPRODUCTOR =====
-function togglePlay() {
-    const videoPlayer = document.getElementById('moviePlayer');
-    const playBtn = document.getElementById('playPauseBtn');
-    
-    if (videoPlayer.paused) {
-        videoPlayer.play();
-        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-    } else {
-        videoPlayer.pause();
-        playBtn.innerHTML = '<i class="fas fa-play"></i>';
-    }
-}
-
-function skipForward() {
-    const videoPlayer = document.getElementById('moviePlayer');
-    videoPlayer.currentTime += 10;
-}
-
-function skipBackward() {
-    const videoPlayer = document.getElementById('moviePlayer');
-    videoPlayer.currentTime -= 10;
-}
-
-function toggleFullscreen() {
-    const videoPlayer = document.getElementById('moviePlayer');
-    
-    if (!document.fullscreenElement) {
-        videoPlayer.requestFullscreen().catch(err => {
-            console.log(`Error attempting to enable fullscreen: ${err.message}`);
-        });
-    } else {
-        document.exitFullscreen();
-    }
-}
-
-function changeQuality() {
-    const qualityBtn = document.querySelector('.quality-btn');
-    const qualities = ['480p', '720p', '1080p', '4K'];
-    const currentIndex = qualities.indexOf(qualityBtn.textContent.trim());
-    const nextIndex = (currentIndex + 1) % qualities.length;
-    
-    qualityBtn.innerHTML = `<i class="fas fa-hd"></i> ${qualities[nextIndex]}`;
-    showNotification(`Calidad cambiada a ${qualities[nextIndex]}`);
-}
-
-// ===== UTILIDADES =====
-function updateStats() {
-    document.getElementById('totalMovies').textContent = `${moviesData.length}+`;
-    document.getElementById('totalDownloads').textContent = `${downloads.length}+`;
-    
-    // Usuarios activos (simulado)
-    const activeUsers = Math.floor(Math.random() * 5000) + 1000;
-    document.getElementById('activeUsers').textContent = `${activeUsers}+`;
-}
-
-function showInfoModal(type) {
-    const modalBody = document.getElementById('modalBody');
-    let content = '';
-    
-    switch(type) {
-        case 'ayuda':
-            content = `
-                <h2><i class="fas fa-question-circle"></i> Ayuda</h2>
-                <p>Para ver una película, simplemente haz clic en ella.</p>
-                <p>Puedes buscar películas por título o descripción.</p>
-                <p>Marca películas como favoritas para encontrarlas fácilmente.</p>
-            `;
-            break;
-        case 'contacto':
-            content = `
-                <h2><i class="fas fa-envelope"></i> Contacto</h2>
-                <p>Email: soporte@cineweb.com</p>
-                <p>Teléfono: +1 234 567 890</p>
-                <p>Horario: Lunes a Viernes 9:00 - 18:00</p>
-            `;
-            break;
-        case 'faq':
-            content = `
-                <h2><i class="fas fa-comments"></i> Preguntas Frecuentes</h2>
-                <p><strong>¿Es gratis?</strong> Sí, completamente gratuito.</p>
-                <p><strong>¿Necesito registrarme?</strong> No, no es necesario.</p>
-                <p><strong>¿Puedo descargar películas?</strong> Sí, en varias calidades.</p>
-            `;
-            break;
-    }
-    
-    modalBody.innerHTML = content;
-    document.getElementById('infoModal').classList.add('active');
-}
-
+// ===== FUNCIONES DE MODAL =====
 function closeModal() {
-    document.getElementById('infoModal').classList.remove('active');
+    document.getElementById('detailModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
 }
 
-function showNotification(message) {
-    // Crear notificación
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerHTML = `
-        <i class="fas fa-check-circle"></i>
-        <span>${message}</span>
-    `;
+function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const videoPlayer = document.getElementById('videoPlayer');
     
-    // Estilos para notificación
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--success);
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        z-index: 4000;
-        animation: slideInRight 0.3s ease;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Remover después de 3 segundos
-    setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
+    // Pausar video
+    videoPlayer.src = '';
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
 }
 
-function shareMovie() {
-    if (!currentMovieDetail) return;
+// Cerrar modales al hacer clic fuera
+window.addEventListener('click', (e) => {
+    const detailModal = document.getElementById('detailModal');
+    const videoModal = document.getElementById('videoModal');
     
-    const shareText = `¡Mira ${currentMovieDetail.title} en CineWeb!`;
-    
-    // Copiar al portapapeles como fallback
-    navigator.clipboard.writeText(shareText);
-    showNotification('Enlace copiado al portapapeles');
-}
+    if (e.target === detailModal) {
+        closeModal();
+    }
+    if (e.target === videoModal) {
+        closeVideoModal();
+    }
+});
 
 // ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Cargar contenido inicial
-    loadInitialMovies();
-    updateStats();
-    loadFavorites();
-    loadDownloads();
+    loadHomeContent();
     
-    // Cerrar sugerencias al hacer clic fuera
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-container')) {
-            document.getElementById('searchSuggestions').classList.remove('active');
-        }
-    });
-    
-    // Cerrar modal al hacer clic fuera
-    document.getElementById('infoModal').addEventListener('click', (e) => {
-        if (e.target.classList.contains('modal-overlay')) {
-            closeModal();
+    // Agregar evento de búsqueda con Enter
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performSearch();
         }
     });
 });
 
-// Añadir estilos CSS para animaciones
+// Estilos adicionales para elementos dinámicos
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
+    .empty-message {
+        text-align: center;
+        padding: 3rem;
+        color: var(--gray);
+        font-size: 1.2rem;
+        grid-column: 1 / -1;
     }
     
-    @keyframes slideOutRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
+    .detail-header {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .detail-poster {
+        width: 100%;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+    }
+    
+    .detail-info h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .detail-meta {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .detail-meta span {
+        padding: 0.5rem 1rem;
+        background-color: var(--gray-light);
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+    
+    .detail-meta .genre {
+        background-color: #ff9f43;
+        color: #000;
+    }
+    
+    .detail-meta .rating {
+        background-color: var(--primary);
+        color: white;
+    }
+    
+    .description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        color: var(--gray);
+    }
+    
+    .detail-actions {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .action-btn {
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: var(--radius);
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s;
+    }
+    
+    .watch-btn {
+        background-color: var(--primary);
+        color: white;
+    }
+    
+    .watch-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+    
+    .favorite-btn-detail {
+        background-color: var(--gray-light);
+        color: white;
+    }
+    
+    .favorite-btn-detail.active {
+        background-color: #ff4757;
+    }
+    
+    .download-btn {
+        background-color: var(--accent);
+        color: white;
+    }
+    
+    .detail-extra {
+        background-color: var(--gray-dark);
+        padding: 1.5rem;
+        border-radius: var(--radius);
+        margin-top: 2rem;
+    }
+    
+    .detail-extra h3 {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    
+    .info-grid div {
+        padding: 0.5rem;
+        background-color: rgba(255,255,255,0.05);
+        border-radius: 8px;
+    }
+    
+    .download-again-btn {
+        padding: 0.5rem 1rem;
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        margin-top: 0.5rem;
+    }
+    
+    .download-episode-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--accent);
+        color: white;
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    @media (max-width: 768px) {
+        .detail-header {
+            grid-template-columns: 1fr;
+        }
+        
+        .detail-poster {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .detail-actions {
+            flex-direction: column;
+        }
     }
 `;
 document.head.appendChild(style);
