@@ -7,14 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
-    <style>
-        /* Mini CSS para carga rápida */
-        .loading {
-            text-align: center;
-            padding: 50px;
-            color: #e50914;
-        }
-    </style>
 </head>
 <body>
     <!-- Navegación Principal -->
@@ -29,16 +21,19 @@
             <!-- Navegación -->
             <div class="nav-links">
                 <button class="nav-btn active" onclick="showSection('inicio')">
-                    <i class="fas fa-home"></i> Inicio
+                    <i class="fas fa-home"></i> <span class="nav-text">Inicio</span>
                 </button>
                 <button class="nav-btn" onclick="showSection('catalogo')">
-                    <i class="fas fa-th-large"></i> Catálogo
+                    <i class="fas fa-th-large"></i> <span class="nav-text">Catálogo</span>
                 </button>
                 <button class="nav-btn" onclick="showSection('recientes')">
-                    <i class="fas fa-clock"></i> Recientes
+                    <i class="fas fa-clock"></i> <span class="nav-text">Recientes</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('favoritos')">
+                    <i class="fas fa-heart"></i> <span class="nav-text">Favoritos</span>
                 </button>
                 <button class="nav-btn" onclick="showSection('descargas')">
-                    <i class="fas fa-download"></i> Descargas
+                    <i class="fas fa-download"></i> <span class="nav-text">Descargas</span>
                 </button>
             </div>
 
@@ -60,32 +55,10 @@
         </div>
     </nav>
 
-    <!-- Botones de Filtro Rápidos -->
-    <div class="quick-filters" id="quickFilters">
-        <button class="filter-btn active" onclick="filterMovies('todas')">
-            <i class="fas fa-star"></i> Todas
-        </button>
-        <button class="filter-btn" onclick="filterMovies('accion')">
-            <i class="fas fa-explosion"></i> Acción
-        </button>
-        <button class="filter-btn" onclick="filterMovies('drama')">
-            <i class="fas fa-theater-masks"></i> Drama
-        </button>
-        <button class="filter-btn" onclick="filterMovies('comedia')">
-            <i class="fas fa-laugh"></i> Comedia
-        </button>
-        <button class="filter-btn" onclick="filterMovies('ciencia-ficcion')">
-            <i class="fas fa-robot"></i> Ciencia Ficción
-        </button>
-        <button class="filter-btn" onclick="filterMovies('2024')">
-            <i class="fas fa-calendar-star"></i> 2024
-        </button>
-    </div>
-
     <!-- Contenido Principal -->
     <main class="main-content">
         
-        <!-- Sección INICIO (visible por defecto) -->
+        <!-- Sección INICIO -->
         <section id="inicio" class="content-section active">
             <div class="hero">
                 <h1><i class="fas fa-film"></i> Bienvenido a CineWeb</h1>
@@ -106,14 +79,27 @@
                         <h3 id="activeUsers">5K+</h3>
                         <p>Usuarios</p>
                     </div>
+                    <div class="stat-card">
+                        <i class="fas fa-heart"></i>
+                        <h3 id="favoriteCount">0</h3>
+                        <p>Favoritos</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Destacadas -->
-            <div class="section-title">
+            <!-- Filtros para inicio -->
+            <div class="section-header">
                 <h2><i class="fas fa-fire"></i> Películas Destacadas</h2>
+                <div class="sort-controls">
+                    <select id="sortHome" onchange="sortHomeMovies()">
+                        <option value="destacadas">Destacadas</option>
+                        <option value="rating">Mejor Valoradas</option>
+                        <option value="recientes">Más Recientes</option>
+                    </select>
+                </div>
             </div>
-            <div class="featured-grid" id="featuredGrid">
+            
+            <div class="movies-grid" id="featuredGrid">
                 <!-- JavaScript cargará aquí -->
             </div>
 
@@ -131,12 +117,24 @@
             <div class="section-header">
                 <h2><i class="fas fa-th-large"></i> Catálogo Completo</h2>
                 <div class="sort-controls">
-                    <select id="sortSelect" onchange="sortMovies()">
-                        <option value="recientes">Más Recientes</option>
-                        <option value="antiguas">Más Antiguas</option>
-                        <option value="rating">Mejor Valoradas</option>
-                        <option value="nombre">A-Z</option>
-                    </select>
+                    <div class="filter-group">
+                        <select id="genreFilter" onchange="filterByGenre()">
+                            <option value="todas">Todos los géneros</option>
+                            <option value="accion">Acción</option>
+                            <option value="drama">Drama</option>
+                            <option value="comedia">Comedia</option>
+                            <option value="ciencia-ficcion">Ciencia Ficción</option>
+                            <option value="aventura">Aventura</option>
+                            <option value="romance">Romance</option>
+                            <option value="terror">Terror</option>
+                        </select>
+                        <select id="sortSelect" onchange="sortMovies()">
+                            <option value="recientes">Más Recientes</option>
+                            <option value="antiguas">Más Antiguas</option>
+                            <option value="rating">Mejor Valoradas</option>
+                            <option value="nombre">A-Z</option>
+                        </select>
+                    </div>
                     <span id="movieCount" class="count-badge">0 películas</span>
                 </div>
             </div>
@@ -158,6 +156,7 @@
                     <button class="time-btn active" onclick="filterRecent('7d')">Semana</button>
                     <button class="time-btn" onclick="filterRecent('30d')">Mes</button>
                     <button class="time-btn" onclick="filterRecent('90d')">3 Meses</button>
+                    <button class="time-btn" onclick="filterRecent('todas')">Todas</button>
                 </div>
             </div>
             <div class="movies-grid" id="recentGrid">
@@ -165,7 +164,28 @@
             </div>
         </section>
 
-        <!-- Sección DESCARGA (Historial de descargas) -->
+        <!-- Sección FAVORITOS -->
+        <section id="favoritos" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-heart"></i> Tus Favoritos</h2>
+                <div class="sort-controls">
+                    <button class="clear-btn" onclick="clearFavorites()">
+                        <i class="fas fa-trash"></i> Limpiar Favoritos
+                    </button>
+                    <span id="favoritesCount" class="count-badge">0 favoritos</span>
+                </div>
+            </div>
+            <div class="movies-grid" id="favoritesGrid">
+                <!-- Favoritos aparecerán aquí -->
+            </div>
+            <div class="empty-state" id="emptyFavorites">
+                <i class="fas fa-heart fa-3x"></i>
+                <h3>No hay favoritos</h3>
+                <p>Las películas que marques como favoritas aparecerán aquí</p>
+            </div>
+        </section>
+
+        <!-- Sección DESCARGA -->
         <section id="descargas" class="content-section">
             <div class="section-header">
                 <h2><i class="fas fa-download"></i> Tus Descargas</h2>
@@ -174,7 +194,6 @@
                 </button>
             </div>
             <div class="downloads-list" id="downloadsList">
-                <!-- Historial de descargas -->
                 <div class="empty-state">
                     <i class="fas fa-download fa-3x"></i>
                     <h3>No hay descargas recientes</h3>
@@ -183,7 +202,7 @@
             </div>
         </section>
 
-        <!-- VISTA DE DETALLE (Aparece al hacer clic en película) -->
+        <!-- VISTA DE DETALLE -->
         <section id="detallePelicula" class="movie-detail-section">
             <div class="detail-container">
                 <!-- Botón para volver -->
@@ -196,23 +215,39 @@
                     <!-- Lado izquierdo: Reproductor -->
                     <div class="detail-player">
                         <div class="video-wrapper">
-                            <video id="moviePlayer" controls>
+                            <video id="moviePlayer" controls poster="">
                                 Tu navegador no soporta video HTML5
                             </video>
                         </div>
                         <div class="player-controls">
-                            <button class="control-btn" onclick="togglePlay()" id="playPauseBtn">
+                            <button class="control-btn" onclick="skipBackward()">
+                                <i class="fas fa-backward-step"></i>
+                            </button>
+                            <button class="control-btn play-btn" onclick="togglePlay()" id="playPauseBtn">
                                 <i class="fas fa-play"></i>
                             </button>
+                            <button class="control-btn" onclick="skipForward()">
+                                <i class="fas fa-forward-step"></i>
+                            </button>
+                            
+                            <div class="progress-container">
+                                <span id="currentTime">0:00</span>
+                                <input type="range" id="progressBar" min="0" max="100" value="0" step="0.1">
+                                <span id="totalTime">0:00</span>
+                            </div>
+                            
                             <div class="volume-control">
-                                <i class="fas fa-volume-up"></i>
+                                <button class="volume-btn" onclick="toggleMute()">
+                                    <i class="fas fa-volume-high" id="volumeIcon"></i>
+                                </button>
                                 <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
                             </div>
+                            
                             <button class="control-btn" onclick="toggleFullscreen()">
                                 <i class="fas fa-expand"></i>
                             </button>
                             <button class="control-btn download-main-btn" onclick="downloadCurrentMovie()">
-                                <i class="fas fa-download"></i> Descargar
+                                <i class="fas fa-download"></i>
                             </button>
                         </div>
                     </div>
@@ -229,14 +264,14 @@
                         <p id="detailDescription">Descripción de la película...</p>
                         
                         <div class="detail-actions">
-                            <button class="action-btn" onclick="addToFavorites()">
-                                <i class="far fa-heart"></i> Favoritos
+                            <button class="action-btn" onclick="toggleFavorite()" id="favoriteBtn">
+                                <i class="far fa-heart"></i> Favorito
                             </button>
                             <button class="action-btn" onclick="shareMovie()">
                                 <i class="fas fa-share"></i> Compartir
                             </button>
-                            <button class="action-btn quality-btn" onclick="changeQuality()">
-                                <i class="fas fa-hd"></i> 1080p
+                            <button class="action-btn quality-btn" onclick="showQualityOptions()">
+                                <i class="fas fa-hd"></i> Calidad
                             </button>
                         </div>
 
@@ -262,10 +297,32 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Opciones de descarga -->
+                        <div class="download-options" id="downloadOptions">
+                            <h3><i class="fas fa-download"></i> Opciones de Descarga</h3>
+                            <div class="quality-options">
+                                <button class="quality-option" onclick="startDownload('720p')">
+                                    <span class="quality-label">720p</span>
+                                    <span class="quality-size">1.2 GB</span>
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="quality-option" onclick="startDownload('1080p')">
+                                    <span class="quality-label">1080p HD</span>
+                                    <span class="quality-size">2.5 GB</span>
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="quality-option" onclick="startDownload('4k')">
+                                    <span class="quality-label">4K UHD</span>
+                                    <span class="quality-size">5.8 GB</span>
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Sugerencias (Mismo género) -->
+                <!-- Sugerencias -->
                 <div class="suggestions-section">
                     <h3><i class="fas fa-magic"></i> Te podría gustar</h3>
                     <div class="suggestions-grid" id="suggestionsGrid">
@@ -288,7 +345,8 @@
                 <h3>Enlaces</h3>
                 <a href="#" onclick="showSection('inicio')">Inicio</a>
                 <a href="#" onclick="showSection('catalogo')">Catálogo</a>
-                <a href="#" onclick="showSection('recientes')">Recientes</a>
+                <a href="#" onclick="showSection('favoritos')">Favoritos</a>
+                <a href="#" onclick="showSection('descargas')">Descargas</a>
             </div>
             <div class="footer-section">
                 <h3>Soporte</h3>
@@ -318,12 +376,5 @@
 
     <!-- Scripts -->
     <script src="script.js"></script>
-    <script>
-        // Inicialización rápida
-        window.addEventListener('DOMContentLoaded', () => {
-            loadInitialMovies();
-            updateStats();
-        });
-    </script>
 </body>
 </html>
