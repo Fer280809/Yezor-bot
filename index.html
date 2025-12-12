@@ -29,16 +29,19 @@
             <!-- Navegación -->
             <div class="nav-links">
                 <button class="nav-btn active" onclick="showSection('inicio')">
-                    <i class="fas fa-home"></i> Inicio
+                    <i class="fas fa-home"></i> <span>Inicio</span>
                 </button>
                 <button class="nav-btn" onclick="showSection('catalogo')">
-                    <i class="fas fa-th-large"></i> Catálogo
+                    <i class="fas fa-th-large"></i> <span>Catálogo</span>
                 </button>
                 <button class="nav-btn" onclick="showSection('recientes')">
-                    <i class="fas fa-clock"></i> Recientes
+                    <i class="fas fa-clock"></i> <span>Recientes</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('favoritos')">
+                    <i class="fas fa-heart"></i> <span>Favoritos</span>
                 </button>
                 <button class="nav-btn" onclick="showSection('descargas')">
-                    <i class="fas fa-download"></i> Descargas
+                    <i class="fas fa-download"></i> <span>Descargas</span>
                 </button>
             </div>
 
@@ -63,22 +66,22 @@
     <!-- Botones de Filtro Rápidos -->
     <div class="quick-filters" id="quickFilters">
         <button class="filter-btn active" onclick="filterMovies('todas')">
-            <i class="fas fa-star"></i> Todas
+            <i class="fas fa-star"></i> <span>Todas</span>
         </button>
         <button class="filter-btn" onclick="filterMovies('accion')">
-            <i class="fas fa-explosion"></i> Acción
+            <i class="fas fa-explosion"></i> <span>Acción</span>
         </button>
         <button class="filter-btn" onclick="filterMovies('drama')">
-            <i class="fas fa-theater-masks"></i> Drama
+            <i class="fas fa-theater-masks"></i> <span>Drama</span>
         </button>
         <button class="filter-btn" onclick="filterMovies('comedia')">
-            <i class="fas fa-laugh"></i> Comedia
+            <i class="fas fa-laugh"></i> <span>Comedia</span>
         </button>
         <button class="filter-btn" onclick="filterMovies('ciencia-ficcion')">
-            <i class="fas fa-robot"></i> Ciencia Ficción
+            <i class="fas fa-robot"></i> <span>Ciencia Ficción</span>
         </button>
         <button class="filter-btn" onclick="filterMovies('2024')">
-            <i class="fas fa-calendar-star"></i> 2024
+            <i class="fas fa-calendar-star"></i> <span>2024</span>
         </button>
     </div>
 
@@ -113,7 +116,7 @@
             <div class="section-title">
                 <h2><i class="fas fa-fire"></i> Películas Destacadas</h2>
             </div>
-            <div class="featured-grid" id="featuredGrid">
+            <div class="movies-grid" id="featuredGrid">
                 <!-- JavaScript cargará aquí -->
             </div>
 
@@ -165,6 +168,24 @@
             </div>
         </section>
 
+        <!-- Sección FAVORITOS -->
+        <section id="favoritos" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-heart"></i> Tus Favoritos</h2>
+                <button class="clear-btn" onclick="clearFavorites()">
+                    <i class="fas fa-trash"></i> Limpiar Favoritos
+                </button>
+            </div>
+            <div class="movies-grid" id="favoritesGrid">
+                <!-- Favoritos aparecerán aquí -->
+            </div>
+            <div class="empty-state" id="emptyFavorites" style="display: none;">
+                <i class="fas fa-heart fa-3x"></i>
+                <h3>No hay favoritos</h3>
+                <p>Las películas que marques como favoritas aparecerán aquí</p>
+            </div>
+        </section>
+
         <!-- Sección DESCARGA (Historial de descargas) -->
         <section id="descargas" class="content-section">
             <div class="section-header">
@@ -201,13 +222,15 @@
                             </video>
                         </div>
                         <div class="player-controls">
-                            <button class="control-btn" onclick="togglePlay()" id="playPauseBtn">
+                            <button class="control-btn" onclick="skipBackward()">
+                                <i class="fas fa-backward-step"></i>
+                            </button>
+                            <button class="control-btn play-btn" onclick="togglePlay()" id="playPauseBtn">
                                 <i class="fas fa-play"></i>
                             </button>
-                            <div class="volume-control">
-                                <i class="fas fa-volume-up"></i>
-                                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
-                            </div>
+                            <button class="control-btn" onclick="skipForward()">
+                                <i class="fas fa-forward-step"></i>
+                            </button>
                             <button class="control-btn" onclick="toggleFullscreen()">
                                 <i class="fas fa-expand"></i>
                             </button>
@@ -229,7 +252,7 @@
                         <p id="detailDescription">Descripción de la película...</p>
                         
                         <div class="detail-actions">
-                            <button class="action-btn" onclick="addToFavorites()">
+                            <button class="action-btn" onclick="toggleFavorite()" id="favoriteBtn">
                                 <i class="far fa-heart"></i> Favoritos
                             </button>
                             <button class="action-btn" onclick="shareMovie()">
@@ -323,6 +346,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             loadInitialMovies();
             updateStats();
+            loadFavorites();
         });
     </script>
 </body>
