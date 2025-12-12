@@ -2,7 +2,7 @@
 let movies = [
     {
         id: 1,
-        title: "El Padrino",
+        title: "Five nights At Freddy's 2",
         description: "Epic crime drama about the Corleone crime family.",
         genre: "drama",
         year: "1972",
