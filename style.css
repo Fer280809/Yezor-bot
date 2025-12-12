@@ -924,6 +924,33 @@ body {
     background-color: var(--primary);
 }
 
+/* ===== FAVORITOS ===== */
+.favorite-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.favorite-badge:hover {
+    background-color: var(--primary);
+}
+
+.favorite-badge.active {
+    color: #ff4757;
+}
+
+.favorite-badge.active:hover {
+    color: #fff;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .nav-container {
