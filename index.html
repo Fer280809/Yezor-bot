@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineWeb - Ver Películas Online</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                <span>CineWeb</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Buscar películas...">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="nav-links">
+                <a href="#inicio">Inicio</a>
+                <a href="#catalogo">Catálogo</a>
+                <a href="#recientes">Recientes</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Reproductor Principal -->
+    <main class="main-content">
+        <section class="player-section">
+            <div class="video-container">
+                <video id="moviePlayer" controls>
+                    <source id="videoSource" src="" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+                
+                <div class="player-controls">
+                    <button id="playBtn" class="control-btn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button id="pauseBtn" class="control-btn">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    <div class="volume-control">
+                        <i class="fas fa-volume-up"></i>
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                    <button id="fullscreenBtn" class="control-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button id="smallScreenBtn" class="control-btn">
+                        <i class="fas fa-compress"></i>
+                    </button>
+                    <a id="downloadBtn" class="control-btn download-btn" download>
+                        <i class="fas fa-download"></i>
+                    </a>
+                    <div class="time-display">
+                        <span id="currentTime">00:00</span> / 
+                        <span id="duration">00:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="movie-info">
+                <h2 id="movieTitle">Selecciona una película</h2>
+                <p id="movieDescription">Elige una película del catálogo para comenzar a verla</p>
+                <div class="movie-meta">
+                    <span class="genre" id="movieGenre">-</span>
+                    <span class="year" id="movieYear">-</span>
+                    <span class="rating" id="movieRating">-</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catálogo de Películas -->
+        <section class="catalog-section">
+            <h2><i class="fas fa-list"></i> Catálogo de Películas</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="accion">Acción</button>
+                <button class="filter-btn" data-filter="drama">Drama</button>
+                <button class="filter-btn" data-filter="comedia">Comedia</button>
+                <button class="filter-btn" data-filter="ciencia-ficcion">Ciencia Ficción</button>
+            </div>
+            <div class="movies-grid" id="moviesGrid">
+                <!-- Las películas se cargarán aquí con JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>CineWeb - Plataforma de streaming gratuita</p>
+            <p>© 2024 - Alojado en GitHub Pages</p>
+            <div class="footer-links">
+                <a href="#" onclick="showAbout()">Acerca de</a>
+                <a href="#" onclick="showHelp()">Ayuda</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Información -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalText"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
