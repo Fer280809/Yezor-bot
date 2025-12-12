@@ -3,215 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine-Bot - Ver y Descargar Películas</title>
+    <title>CineWeb - Ver Películas Online</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <style>
+        /* Mini CSS para carga rápida */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #e50914;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navegación -->
+    <!-- Navegación Principal -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-robot"></i>
-                <span>Cine-Bot</span>
+            <!-- Logo -->
+            <div class="logo" onclick="showSection('inicio')">
+                <i class="fas fa-film"></i>
+                <span>CineWeb</span>
             </div>
-            <div class="nav-links" id="navLinks">
-                <a href="#" class="nav-link active" data-target="inicio">
+
+            <!-- Navegación -->
+            <div class="nav-links">
+                <button class="nav-btn active" onclick="showSection('inicio')">
                     <i class="fas fa-home"></i> Inicio
-                </a>
-                <a href="#" class="nav-link" data-target="catalogo">
-                    <i class="fas fa-list"></i> Catálogo
-                </a>
-                <a href="#" class="nav-link" data-target="recientes">
+                </button>
+                <button class="nav-btn" onclick="showSection('catalogo')">
+                    <i class="fas fa-th-large"></i> Catálogo
+                </button>
+                <button class="nav-btn" onclick="showSection('recientes')">
                     <i class="fas fa-clock"></i> Recientes
-                </a>
+                </button>
+                <button class="nav-btn" onclick="showSection('descargas')">
+                    <i class="fas fa-download"></i> Descargas
+                </button>
             </div>
+
+            <!-- Búsqueda -->
             <div class="search-container">
                 <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="Buscar películas...">
-                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    <input type="text" id="searchInput" 
+                           placeholder="Buscar películas..." 
+                           onkeyup="searchMovies()"
+                           onfocus="showSuggestions()">
+                    <button id="searchBtn" onclick="performSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
                 <div class="search-suggestions" id="searchSuggestions">
                     <!-- Sugerencias aparecen aquí -->
                 </div>
             </div>
-            <button class="back-to-catalog" id="backToCatalog" style="display: none;">
-                <i class="fas fa-arrow-left"></i> Volver al Catálogo
-            </button>
         </div>
     </nav>
 
-    <!-- Pantalla de Catálogo -->
-    <div id="catalogScreen">
-        <!-- Sección Inicio -->
-        <section id="inicio" class="catalog-section active">
-            <div class="hero-section">
-                <h1>Bienvenido a Cine-Bot</h1>
+    <!-- Botones de Filtro Rápidos -->
+    <div class="quick-filters" id="quickFilters">
+        <button class="filter-btn active" onclick="filterMovies('todas')">
+            <i class="fas fa-star"></i> Todas
+        </button>
+        <button class="filter-btn" onclick="filterMovies('accion')">
+            <i class="fas fa-explosion"></i> Acción
+        </button>
+        <button class="filter-btn" onclick="filterMovies('drama')">
+            <i class="fas fa-theater-masks"></i> Drama
+        </button>
+        <button class="filter-btn" onclick="filterMovies('comedia')">
+            <i class="fas fa-laugh"></i> Comedia
+        </button>
+        <button class="filter-btn" onclick="filterMovies('ciencia-ficcion')">
+            <i class="fas fa-robot"></i> Ciencia Ficción
+        </button>
+        <button class="filter-btn" onclick="filterMovies('2024')">
+            <i class="fas fa-calendar-star"></i> 2024
+        </button>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        
+        <!-- Sección INICIO (visible por defecto) -->
+        <section id="inicio" class="content-section active">
+            <div class="hero">
+                <h1><i class="fas fa-film"></i> Bienvenido a CineWeb</h1>
                 <p>Tu plataforma gratuita para ver y descargar películas</p>
                 <div class="hero-stats">
-                    <div class="stat">
+                    <div class="stat-card">
                         <i class="fas fa-film"></i>
-                        <span id="totalMovies">0</span>
+                        <h3 id="totalMovies">150+</h3>
                         <p>Películas</p>
                     </div>
-                    <div class="stat">
+                    <div class="stat-card">
                         <i class="fas fa-download"></i>
-                        <span id="totalDownloads">0</span>
+                        <h3 id="totalDownloads">10K+</h3>
                         <p>Descargas</p>
                     </div>
-                    <div class="stat">
+                    <div class="stat-card">
                         <i class="fas fa-users"></i>
-                        <span id="activeUsers">0</span>
+                        <h3 id="activeUsers">5K+</h3>
                         <p>Usuarios</p>
                     </div>
                 </div>
             </div>
 
-            <div class="featured-section">
+            <!-- Destacadas -->
+            <div class="section-title">
                 <h2><i class="fas fa-fire"></i> Películas Destacadas</h2>
-                <div class="featured-grid" id="featuredMovies">
-                    <!-- Películas destacadas se cargan aquí -->
-                </div>
+            </div>
+            <div class="featured-grid" id="featuredGrid">
+                <!-- JavaScript cargará aquí -->
+            </div>
+
+            <!-- Novedades -->
+            <div class="section-title">
+                <h2><i class="fas fa-newspaper"></i> Últimas Novedades</h2>
+            </div>
+            <div class="movies-grid" id="novedadesGrid">
+                <!-- JavaScript cargará aquí -->
             </div>
         </section>
 
-        <!-- Sección Catálogo -->
-        <section id="catalogo" class="catalog-section">
-            <div class="catalog-header">
-                <h2><i class="fas fa-layer-group"></i> Catálogo Completo</h2>
-                <div class="sort-options">
-                    <select id="sortSelect">
+        <!-- Sección CATÁLOGO -->
+        <section id="catalogo" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-th-large"></i> Catálogo Completo</h2>
+                <div class="sort-controls">
+                    <select id="sortSelect" onchange="sortMovies()">
                         <option value="recientes">Más Recientes</option>
-                        <option value="viejas">Más Antiguas</option>
+                        <option value="antiguas">Más Antiguas</option>
                         <option value="rating">Mejor Valoradas</option>
                         <option value="nombre">A-Z</option>
                     </select>
+                    <span id="movieCount" class="count-badge">0 películas</span>
                 </div>
             </div>
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">Todas</button>
-                <button class="filter-btn" data-filter="accion">Acción</button>
-                <button class="filter-btn" data-filter="drama">Drama</button>
-                <button class="filter-btn" data-filter="comedia">Comedia</button>
-                <button class="filter-btn" data-filter="ciencia-ficcion">Ciencia Ficción</button>
-                <button class="filter-btn" data-filter="terror">Terror</button>
-                <button class="filter-btn" data-filter="animacion">Animación</button>
-            </div>
             <div class="movies-grid" id="catalogGrid">
-                <!-- Películas del catálogo se cargan aquí -->
+                <!-- JavaScript cargará aquí -->
             </div>
-            <div class="load-more-container">
-                <button id="loadMoreBtn" class="load-more-btn">
-                    <i class="fas fa-plus"></i> Cargar Más Películas
+            <div class="load-more">
+                <button onclick="loadMoreMovies()" id="loadMoreBtn">
+                    <i class="fas fa-plus"></i> Cargar Más
                 </button>
             </div>
         </section>
 
-        <!-- Sección Recientes -->
-        <section id="recientes" class="catalog-section">
-            <div class="recent-header">
-                <h2><i class="fas fa-history"></i> Agregadas Recientemente</h2>
-                <div class="time-filter">
-                    <button class="time-btn active" data-time="7d">Última semana</button>
-                    <button class="time-btn" data-time="30d">Último mes</button>
-                    <button class="time-btn" data-time="90d">Últimos 3 meses</button>
+        <!-- Sección RECIENTES -->
+        <section id="recientes" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-clock"></i> Agregadas Recientemente</h2>
+                <div class="time-filters">
+                    <button class="time-btn active" onclick="filterRecent('7d')">Semana</button>
+                    <button class="time-btn" onclick="filterRecent('30d')">Mes</button>
+                    <button class="time-btn" onclick="filterRecent('90d')">3 Meses</button>
                 </div>
             </div>
-            <div class="movies-grid" id="recentMovies">
-                <!-- Películas recientes se cargan aquí -->
+            <div class="movies-grid" id="recentGrid">
+                <!-- JavaScript cargará aquí -->
             </div>
         </section>
-    </div>
 
-    <!-- Pantalla de Detalle -->
-    <div id="detailScreen" class="detail-screen">
-        <div class="detail-container">
-            <div class="movie-player-section">
-                <div class="video-container">
-                    <video id="moviePlayer" controls>
-                        <source id="videoSource" src="" type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-                    </video>
+        <!-- Sección DESCARGA (Historial de descargas) -->
+        <section id="descargas" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-download"></i> Tus Descargas</h2>
+                <button class="clear-btn" onclick="clearDownloads()">
+                    <i class="fas fa-trash"></i> Limpiar Historial
+                </button>
+            </div>
+            <div class="downloads-list" id="downloadsList">
+                <!-- Historial de descargas -->
+                <div class="empty-state">
+                    <i class="fas fa-download fa-3x"></i>
+                    <h3>No hay descargas recientes</h3>
+                    <p>Las películas que descargues aparecerán aquí</p>
                 </div>
-                <div class="player-controls">
-                    <button id="playBtn" class="control-btn">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <button id="pauseBtn" class="control-btn">
-                        <i class="fas fa-pause"></i>
-                    </button>
-                    <div class="volume-control">
-                        <i class="fas fa-volume-up"></i>
-                        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+            </div>
+        </section>
+
+        <!-- VISTA DE DETALLE (Aparece al hacer clic en película) -->
+        <section id="detallePelicula" class="movie-detail-section">
+            <div class="detail-container">
+                <!-- Botón para volver -->
+                <button class="back-btn" onclick="hideMovieDetail()">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+
+                <!-- Contenido del detalle -->
+                <div class="detail-content">
+                    <!-- Lado izquierdo: Reproductor -->
+                    <div class="detail-player">
+                        <div class="video-wrapper">
+                            <video id="moviePlayer" controls>
+                                Tu navegador no soporta video HTML5
+                            </video>
+                        </div>
+                        <div class="player-controls">
+                            <button class="control-btn" onclick="togglePlay()" id="playPauseBtn">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <div class="volume-control">
+                                <i class="fas fa-volume-up"></i>
+                                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+                            </div>
+                            <button class="control-btn" onclick="toggleFullscreen()">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="control-btn download-main-btn" onclick="downloadCurrentMovie()">
+                                <i class="fas fa-download"></i> Descargar
+                            </button>
+                        </div>
                     </div>
-                    <button id="fullscreenBtn" class="control-btn">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                    <button id="smallScreenBtn" class="control-btn">
-                        <i class="fas fa-compress"></i>
-                    </button>
-                    <button id="downloadBtn" class="control-btn download-btn">
-                        <i class="fas fa-download"></i> Descargar
-                    </button>
-                    <div class="time-display">
-                        <span id="currentTime">00:00</span> / 
-                        <span id="duration">00:00</span>
+
+                    <!-- Lado derecho: Información -->
+                    <div class="detail-info">
+                        <h1 id="detailTitle">Título de la Película</h1>
+                        <div class="detail-meta">
+                            <span class="detail-genre" id="detailGenre">Acción</span>
+                            <span class="detail-year" id="detailYear">2024</span>
+                            <span class="detail-rating" id="detailRating">8.5/10</span>
+                            <span class="detail-duration" id="detailDuration">2h 30m</span>
+                        </div>
+                        <p id="detailDescription">Descripción de la película...</p>
+                        
+                        <div class="detail-actions">
+                            <button class="action-btn" onclick="addToFavorites()">
+                                <i class="far fa-heart"></i> Favoritos
+                            </button>
+                            <button class="action-btn" onclick="shareMovie()">
+                                <i class="fas fa-share"></i> Compartir
+                            </button>
+                            <button class="action-btn quality-btn" onclick="changeQuality()">
+                                <i class="fas fa-hd"></i> 1080p
+                            </button>
+                        </div>
+
+                        <!-- Información adicional -->
+                        <div class="detail-extra">
+                            <h3><i class="fas fa-info-circle"></i> Información</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <strong>Director:</strong>
+                                    <span id="detailDirector">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Actores:</strong>
+                                    <span id="detailActors">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Idioma:</strong>
+                                    <span id="detailLanguage">Español</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Tamaño:</strong>
+                                    <span id="detailSize">1.5 GB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sugerencias (Mismo género) -->
+                <div class="suggestions-section">
+                    <h3><i class="fas fa-magic"></i> Te podría gustar</h3>
+                    <div class="suggestions-grid" id="suggestionsGrid">
+                        <!-- Películas sugeridas -->
                     </div>
                 </div>
             </div>
-            <div class="movie-details">
-                <h2 id="detailTitle">Título de la Película</h2>
-                <p id="detailDescription">Descripción de la película.</p>
-                <div class="movie-meta">
-                    <span class="genre" id="detailGenre">-</span>
-                    <span class="year" id="detailYear">-</span>
-                    <span class="rating" id="detailRating">-</span>
-                    <span class="duration" id="detailDuration">-</span>
-                </div>
-                <div class="movie-actions">
-                    <button class="action-btn watch-btn" id="watchTrailerBtn">
-                        <i class="fas fa-play-circle"></i> Ver Tráiler
-                    </button>
-                    <button class="action-btn favorite-btn" id="favoriteBtn">
-                        <i class="far fa-heart"></i> Favorito
-                    </button>
-                    <button class="action-btn share-btn" id="shareBtn">
-                        <i class="fas fa-share-alt"></i> Compartir
-                    </button>
-                </div>
-            </div>
-            <div class="suggestions-section">
-                <h3><i class="fas fa-film"></i> Películas Sugeridas</h3>
-                <div class="suggestions-grid" id="suggestionsGrid">
-                    <!-- Películas sugeridas se cargan aquí -->
-                </div>
-            </div>
-        </div>
-    </div>
+        </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>Cine-Bot - Plataforma de streaming gratuita</p>
-            <p>© 2024 - Alojado en GitHub Pages</p>
-            <div class="footer-links">
-                <a href="#" id="aboutBtn">Acerca de</a>
-                <a href="#" id="helpBtn">Ayuda</a>
-                <a href="#" id="contactBtn">Contacto</a>
+            <div class="footer-section">
+                <h3>CineWeb</h3>
+                <p>Plataforma gratuita de streaming y descarga de películas</p>
             </div>
+            <div class="footer-section">
+                <h3>Enlaces</h3>
+                <a href="#" onclick="showSection('inicio')">Inicio</a>
+                <a href="#" onclick="showSection('catalogo')">Catálogo</a>
+                <a href="#" onclick="showSection('recientes')">Recientes</a>
+            </div>
+            <div class="footer-section">
+                <h3>Soporte</h3>
+                <a href="#" onclick="showInfoModal('ayuda')">Ayuda</a>
+                <a href="#" onclick="showInfoModal('contacto')">Contacto</a>
+                <a href="#" onclick="showInfoModal('faq')">FAQ</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 CineWeb - Todos los derechos reservados</p>
+            <p class="github-link">
+                <i class="fab fa-github"></i> 
+                <a href="https://github.com" target="_blank">Ver en GitHub</a>
+            </p>
         </div>
     </footer>
 
-    <!-- Modal para Acerca de, Ayuda, etc. -->
-    <div id="infoModal" class="modal">
+    <!-- Modal de Información -->
+    <div id="infoModal" class="modal-overlay">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <p id="modalText"></p>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Contenido dinámico -->
+            </div>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="script.js"></script>
+    <script>
+        // Inicialización rápida
+        window.addEventListener('DOMContentLoaded', () => {
+            loadInitialMovies();
+            updateStats();
+        });
+    </script>
 </body>
 </html>
